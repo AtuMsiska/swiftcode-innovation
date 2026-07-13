@@ -7,9 +7,11 @@ type Status = "idle" | "submitting" | "success" | "error";
 
 const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
 
-// Web3Forms public access key (safe to expose). Get one free at web3forms.com
-// and set NEXT_PUBLIC_WEB3FORMS_KEY in .env.local, then rebuild.
-const WEB3FORMS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_KEY || "";
+// Web3Forms access key. These keys are public by design (they live in the
+// client bundle), so it's safe to ship as the default. Override anytime with
+// NEXT_PUBLIC_WEB3FORMS_KEY in the environment. Submissions go to the inbox
+// registered with this key (admin@swiftcode.co.za).
+const WEB3FORMS_KEY = process.env.NEXT_PUBLIC_WEB3FORMS_KEY || "d5bd7209-40e5-4a01-98e6-166f915a89a4";
 
 export function ContactForm() {
   const [status, setStatus] = useState<Status>("idle");
