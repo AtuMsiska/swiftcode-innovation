@@ -11,7 +11,9 @@ export const site = {
   tagline: "Where Technology Meets Innovation.",
   description:
     "SwiftCode Innovation is a South African technology company that researches real-world challenges before engineering innovative digital products and enterprise software solutions that shape the future.",
-  founded: "2024",
+  founded: "2023",
+  registered: "8 May 2023", // officially registered with CIPC
+  infoOfficer: "Atusaye Msiska", // POPIA Information Officer (CEO)
   email: "admin@swiftcode.co.za",
   emailIt: "it@swiftcode.co.za",
   phone: "+27 74 832 8272",
@@ -51,6 +53,7 @@ export const footerNav = {
   ],
   Resources: [
     { label: "Privacy Policy", href: "/privacy" },
+    { label: "POPIA Compliance", href: "/popia" },
     { label: "PAIA Manual", href: "/paia" },
     { label: "Terms & Conditions", href: "/terms" },
   ],

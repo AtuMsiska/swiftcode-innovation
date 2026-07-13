@@ -31,7 +31,7 @@ export default function PaiaPage() {
         <ul>
           <li>Company: {site.legalName}</li>
           <li>Registered address: {site.address.street}, {site.address.suburb}, {site.address.city}, {site.address.postalCode}</li>
-          <li>Information Officer: To be appointed</li>
+          <li>Information Officer: {site.infoOfficer}</li>
           <li>Email: <a href={`mailto:${site.email}`}>{site.email}</a></li>
         </ul>
       </div>

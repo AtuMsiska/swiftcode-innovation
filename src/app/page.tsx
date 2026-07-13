@@ -52,7 +52,7 @@ export default function Home() {
               {/* Desktop: full badge (unchanged) */}
               <span className="hidden items-center gap-2 rounded-full border border-[var(--color-line-strong)] bg-white/[0.05] py-1.5 pl-2 pr-3.5 text-[13px] font-medium text-body md:inline-flex">
                 <span className="flex h-6 items-center gap-1.5 rounded-full bg-cyan/20 px-2.5 text-cyan">Innovation Company</span>
-                Research-first · Est. 2024 · South Africa
+                Research-first · Est. 2023 · South Africa
               </span>
               {/* Mobile: clean single-line pill */}
               <span className="inline-flex items-center gap-2 rounded-full border border-[var(--color-line-strong)] bg-white/[0.05] px-3.5 py-2 text-[13px] font-semibold tracking-wide text-body md:hidden">

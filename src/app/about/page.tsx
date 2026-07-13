@@ -9,7 +9,7 @@ import { ArrowRight, Mail } from "lucide-react";
 export const metadata: Metadata = {
   title: "About",
   description:
-    "SwiftCode Innovation is a South African technology company founded in 2024, researching emerging challenges and engineering the products that solve them.",
+    "SwiftCode Innovation is a South African technology company founded in 2023, researching emerging challenges and engineering the products that solve them.",
   alternates: { canonical: "/about" },
 };
 
