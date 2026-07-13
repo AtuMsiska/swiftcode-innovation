@@ -36,7 +36,7 @@ export function ContactForm() {
     }
     if (!WEB3FORMS_KEY) {
       setStatus("error");
-      setServerError("The form isn't configured yet. Please email us directly at info@swiftcode.co.za.");
+      setServerError("The form isn't configured yet. Please email us directly at admin@swiftcode.co.za.");
       return;
     }
 
@@ -70,7 +70,7 @@ export function ContactForm() {
       }
     } catch {
       setStatus("error");
-      setServerError("Something went wrong sending your message. Please email us directly at info@swiftcode.co.za.");
+      setServerError("Something went wrong sending your message. Please email us directly at admin@swiftcode.co.za.");
     }
   }
 
@@ -137,7 +137,7 @@ export function ContactForm() {
 }
 
 const inputCls =
-  "min-h-[50px] w-full rounded-xl border border-[var(--color-line)] bg-navy px-4 py-3 text-[15px] text-fg placeholder:text-faint transition-all focus:border-royal focus:outline-none focus:ring-2 focus:ring-royal/40 aria-[invalid=true]:border-red-500";
+  "min-h-[52px] w-full rounded-xl border border-[var(--color-line)] bg-navy px-4 py-3 text-[16px] text-fg placeholder:text-faint transition-all focus:border-royal focus:outline-none focus:ring-2 focus:ring-royal/40 aria-[invalid=true]:border-red-500";
 
 function Field({
   id, label, required, error, errorMsg, className, children,

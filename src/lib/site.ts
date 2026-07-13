@@ -12,7 +12,7 @@ export const site = {
   description:
     "SwiftCode Innovation is a South African technology company that researches real-world challenges before engineering innovative digital products and enterprise software solutions that shape the future.",
   founded: "2024",
-  email: "info@swiftcode.co.za",
+  email: "admin@swiftcode.co.za",
   emailIt: "it@swiftcode.co.za",
   phone: "+27 74 832 8272",
   address: {

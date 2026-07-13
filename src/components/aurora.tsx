@@ -6,7 +6,7 @@ export function Aurora() {
   return (
     <div aria-hidden="true" className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
       <div
-        className="absolute h-[60vw] w-[60vw] rounded-full blur-[90px] opacity-55"
+        className="absolute h-[60vw] w-[60vw] rounded-full blur-[55px] opacity-45 md:opacity-55 md:blur-[90px]"
         style={{
           left: "-10vw",
           top: "-20vh",
@@ -15,7 +15,7 @@ export function Aurora() {
         }}
       />
       <div
-        className="absolute h-[55vw] w-[55vw] rounded-full blur-[90px] opacity-45"
+        className="absolute h-[55vw] w-[55vw] rounded-full blur-[55px] opacity-35 md:opacity-45 md:blur-[90px]"
         style={{
           right: "-12vw",
           top: "8vh",
@@ -24,7 +24,7 @@ export function Aurora() {
         }}
       />
       <div
-        className="absolute h-[45vw] w-[45vw] rounded-full blur-[100px] opacity-30"
+        className="absolute h-[45vw] w-[45vw] rounded-full blur-[60px] opacity-25 md:opacity-30 md:blur-[100px]"
         style={{
           left: "30vw",
           bottom: "-25vh",

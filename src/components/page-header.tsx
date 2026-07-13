@@ -20,7 +20,7 @@ export function PageHeader({
           <Eyebrow>{eyebrow}</Eyebrow>
         </Reveal>
         <Reveal delay={0.08}>
-          <h1 className="mt-4 max-w-[20ch] text-[clamp(34px,6vw,64px)] font-bold">{title}</h1>
+          <h1 className="mt-4 max-w-[20ch] text-[clamp(30px,6vw,64px)] font-bold">{title}</h1>
         </Reveal>
         {intro && (
           <Reveal delay={0.16}>

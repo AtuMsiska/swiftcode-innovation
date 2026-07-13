@@ -2,6 +2,7 @@ import Link from "next/link";
 import { Mail, MapPin, Phone } from "lucide-react";
 import { site, footerNav } from "@/lib/site";
 import { Logo } from "@/components/logo";
+import { FooterSection } from "@/components/footer-section";
 
 /* Brand marks (lucide no longer ships brand icons) */
 function LinkedInIcon({ className }: { className?: string }) {
@@ -40,10 +41,9 @@ export function Footer() {
             </div>
           </div>
 
-          {/* Nav columns */}
+          {/* Nav columns (accordion on mobile) */}
           {Object.entries(footerNav).map(([group, links]) => (
-            <div key={group}>
-              <h4 className="mb-4 text-[13px] font-semibold uppercase tracking-[0.1em] text-faint">{group}</h4>
+            <FooterSection key={group} title={group}>
               <ul>
                 {links.map((l) => (
                   <li key={l.href}>
@@ -53,12 +53,11 @@ export function Footer() {
                   </li>
                 ))}
               </ul>
-            </div>
+            </FooterSection>
           ))}
 
-          {/* Contact */}
-          <div>
-            <h4 className="mb-4 text-[13px] font-semibold uppercase tracking-[0.1em] text-faint">Contact</h4>
+          {/* Contact (accordion on mobile) */}
+          <FooterSection title="Contact">
             <ul className="space-y-3 text-[14.5px]">
               <li className="flex items-center gap-2.5">
                 <Mail className="h-4 w-4 shrink-0 text-cyan" />
@@ -80,7 +79,7 @@ export function Footer() {
                 </span>
               </li>
             </ul>
-          </div>
+          </FooterSection>
         </div>
 
         <div className="mt-14 flex flex-col items-start justify-between gap-4 border-t border-[var(--color-line)] pt-7 text-[14px] text-faint sm:flex-row sm:items-center">

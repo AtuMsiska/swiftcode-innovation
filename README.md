@@ -70,7 +70,7 @@ Vercel is the host, and you point DNS from GoDaddy to Vercel.
 
 **1. Configure the contact form (once):**
 - Get a free key at [web3forms.com](https://web3forms.com) (enter
-  `info@swiftcode.co.za`), and add it as an env var (below).
+  `admin@swiftcode.co.za`), and add it as an env var (below).
 
 **2. Deploy — CLI:**
 ```bash

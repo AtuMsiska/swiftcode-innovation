@@ -56,7 +56,7 @@ export default function Home() {
             </Reveal>
 
             <Reveal delay={0.08}>
-              <h1 className="mt-8 text-[clamp(48px,9vw,110px)] font-bold leading-[0.98]">
+              <h1 className="mt-8 text-[clamp(40px,9vw,110px)] font-bold leading-[1.02] md:leading-[0.98]">
                 <span className="block text-white">We Research.</span>
                 <span className="block text-white">We Build.</span>
                 <span className="block grad-text-anim">We Transform.</span>
@@ -84,7 +84,8 @@ export default function Home() {
             </Reveal>
 
             <Reveal delay={0.32}>
-              <div className="mt-14 flex flex-wrap gap-2.5">
+              {/* extra proof chips are desktop-only — keep the mobile hero focused */}
+              <div className="mt-14 hidden flex-wrap gap-2.5 md:flex">
                 {["Research-first innovation", "Flagship product: AIDucate", "Product complete · Launch phase"].map((chip) => (
                   <span key={chip} className="inline-flex items-center gap-1.5 rounded-full border border-[var(--color-line)] bg-white/[0.04] px-3.5 py-2 text-[13px] text-body">
                     <span className="h-1.5 w-1.5 rounded-full bg-cyan" aria-hidden />
@@ -152,9 +153,9 @@ export default function Home() {
       {/* ================= STATS ================= */}
       <section className="container-x py-[clamp(40px,7vw,90px)]">
         <Reveal>
-          <div className="grid gap-y-10 gap-x-6 rounded-[24px] border border-[var(--color-line)] bg-navy/40 p-[clamp(28px,4vw,52px)] sm:grid-cols-3 lg:grid-cols-6">
-            {stats.map((s) => (
-              <div key={s.label} className="text-center">
+          <div className="grid grid-cols-2 gap-y-10 gap-x-6 rounded-[24px] border border-[var(--color-line)] bg-navy/40 p-[clamp(24px,4vw,52px)] sm:grid-cols-3 lg:grid-cols-6">
+            {stats.map((s, i) => (
+              <div key={s.label} className={`text-center ${i >= 3 ? "hidden sm:block" : ""}`}>
                 <div className="grad-text font-[family-name:var(--font-display)] text-[clamp(30px,4vw,44px)] font-bold">
                   <Counter to={s.value} suffix={s.suffix} />
                 </div>
@@ -272,7 +273,8 @@ export default function Home() {
         <p className="mb-8 text-center text-[13px] font-semibold uppercase tracking-[0.14em] text-faint">
           The technology we build with
         </p>
-        <div className="overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_10%,#000_90%,transparent)]">
+        {/* Desktop: marquee */}
+        <div className="hidden overflow-hidden [mask-image:linear-gradient(90deg,transparent,#000_10%,#000_90%,transparent)] md:block">
           <div className="flex w-max gap-12 [animation:marquee_38s_linear_infinite]">
             {[...techStack, ...techStack].map((t, i) => (
               <span key={i} className="whitespace-nowrap font-[family-name:var(--font-display)] text-[22px] font-semibold text-body transition-colors hover:text-cyan">
@@ -280,6 +282,17 @@ export default function Home() {
               </span>
             ))}
           </div>
+        </div>
+        {/* Mobile: swipeable chips */}
+        <div className="flex snap-x gap-2.5 overflow-x-auto px-5 pb-1 [scrollbar-width:none] [&::-webkit-scrollbar]:hidden md:hidden">
+          {techStack.map((t) => (
+            <span
+              key={t}
+              className="snap-start whitespace-nowrap rounded-full border border-[var(--color-line)] bg-white/[0.04] px-4 py-2 text-[14px] font-medium text-body"
+            >
+              {t}
+            </span>
+          ))}
         </div>
       </section>
 

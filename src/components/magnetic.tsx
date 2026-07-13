@@ -36,7 +36,7 @@ export function MagneticButton({ href, children, variant = "primary", className 
   }
 
   const cls = clsx(
-    "group relative inline-flex min-h-[52px] items-center justify-center gap-2 rounded-xl px-7 text-[15px] font-semibold transition-[transform,box-shadow,background] duration-300 will-change-transform",
+    "group relative inline-flex min-h-[52px] items-center justify-center gap-2 rounded-xl px-7 text-[15px] font-semibold transition-[transform,box-shadow,background] duration-300 will-change-transform active:scale-[0.97]",
     variant === "primary" &&
       "bg-gradient-to-br from-cyan to-royal text-ink shadow-[0_10px_30px_-8px_rgba(24,224,255,.55)] hover:shadow-[0_20px_50px_-10px_rgba(24,224,255,.75)]",
     variant === "ghost" &&

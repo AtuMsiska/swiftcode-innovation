@@ -38,7 +38,12 @@ export function HeroCanvas() {
       canvas.style.height = height + "px";
       ctx.setTransform(dpr, 0, 0, dpr, 0, 0);
 
-      const count = Math.min(64, Math.floor((width * height) / 22000));
+      // Lighter field on phones — fewer nodes, cheaper per frame (battery + perf)
+      const isMobile = width < 768;
+      const count = Math.min(
+        isMobile ? 22 : 64,
+        Math.floor((width * height) / (isMobile ? 32000 : 22000)),
+      );
       nodes = Array.from({ length: count }, () => ({
         x: Math.random() * width,
         y: Math.random() * height,
@@ -114,5 +119,5 @@ export function HeroCanvas() {
     };
   }, []);
 
-  return <canvas ref={ref} aria-hidden="true" className="absolute inset-0 h-full w-full opacity-40" />;
+  return <canvas ref={ref} aria-hidden="true" className="absolute inset-0 h-full w-full opacity-[0.22] md:opacity-40" />;
 }
