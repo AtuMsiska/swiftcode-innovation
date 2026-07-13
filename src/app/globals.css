@@ -1,0 +1,195 @@
+@import "tailwindcss";
+
+/* ============================================================
+   SwiftCode Innovation — Design System (dark only)
+   ============================================================ */
+@theme {
+  /* Brand palette */
+  --color-ink: #05070b;      /* page background */
+  --color-navy: #071c2c;     /* deep secondary surface */
+  --color-navy-2: #0a2438;   /* elevated surface */
+  --color-royal: #1e6bff;    /* primary accent */
+  --color-cyan: #18e0ff;     /* electric accent */
+
+  /* Neutrals — tuned for strong contrast on #05070b */
+  --color-fg: #ffffff;       /* headings / key text (AAA) */
+  --color-body: #cbd6e4;     /* body copy — light grey (~11:1) */
+  --color-muted: #a6b6ca;    /* secondary text — medium grey (~7:1) */
+  --color-faint: #7d8fa4;    /* tertiary text (~4.6:1) */
+  --color-line: rgba(255, 255, 255, 0.10);
+  --color-line-strong: rgba(255, 255, 255, 0.18);
+
+  /* Typography */
+  --font-display: var(--font-space-grotesk), "Space Grotesk", ui-sans-serif, system-ui, sans-serif;
+  --font-body: var(--font-inter), "Inter", ui-sans-serif, system-ui, sans-serif;
+
+  /* Radius */
+  --radius-xl: 24px;
+  --radius-lg: 18px;
+  --radius-md: 14px;
+
+  /* Easing */
+  --ease-out-expo: cubic-bezier(0.22, 0.61, 0.36, 1);
+}
+
+/* ---- Base ---- */
+:root {
+  color-scheme: dark;
+}
+* {
+  border-color: var(--color-line);
+}
+html {
+  scroll-behavior: smooth;
+  -webkit-text-size-adjust: 100%;
+}
+body {
+  background: var(--color-ink);
+  color: var(--color-body);
+  font-family: var(--font-body);
+  font-size: 16px;
+  line-height: 1.65;
+  -webkit-font-smoothing: antialiased;
+  text-rendering: optimizeLegibility;
+  overflow-x: hidden;
+}
+h1, h2, h3, h4, h5 {
+  font-family: var(--font-display);
+  font-weight: 600;
+  line-height: 1.07;
+  letter-spacing: -0.025em;
+  color: #fff;
+  text-wrap: balance;
+}
+p { text-wrap: pretty; }
+::selection {
+  background: color-mix(in srgb, var(--color-royal) 45%, transparent);
+  color: #fff;
+}
+:focus-visible {
+  outline: 2px solid var(--color-cyan);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
+a { color: inherit; text-decoration: none; }
+
+/* ---- Reusable utilities ---- */
+@utility container-x {
+  width: 100%;
+  max-width: 1240px;
+  margin-inline: auto;
+  padding-inline: clamp(20px, 5vw, 40px);
+}
+
+.grad-text {
+  /* bright, uniformly high-contrast on #05070b — no dark stops */
+  background: linear-gradient(100deg, #35e8ff 0%, #8fd0ff 55%, #35e8ff 100%);
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+}
+
+.glass {
+  background: rgba(255, 255, 255, 0.045);
+  border: 1px solid var(--color-line);
+  backdrop-filter: blur(12px);
+}
+
+.card-hover {
+  transition: transform 0.35s var(--ease-out-expo), border-color 0.35s, background 0.35s;
+}
+.card-hover:hover {
+  transform: translateY(-4px);
+  border-color: var(--color-line-strong);
+  background: rgba(255, 255, 255, 0.06);
+}
+
+/* Animated dashed grid backdrop */
+.grid-bg {
+  background-image:
+    linear-gradient(rgba(255, 255, 255, 0.03) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255, 255, 255, 0.03) 1px, transparent 1px);
+  background-size: 64px 64px;
+  -webkit-mask-image: radial-gradient(ellipse 80% 55% at 50% 0%, #000 35%, transparent 100%);
+  mask-image: radial-gradient(ellipse 80% 55% at 50% 0%, #000 35%, transparent 100%);
+}
+
+/* Aurora + marquee keyframes */
+@keyframes drift-a { to { transform: translate(12vw, 8vh) scale(1.15); } }
+@keyframes drift-b { to { transform: translate(-10vw, 6vh) scale(1.1); } }
+@keyframes drift-c { to { transform: translate(-8vw, -6vh) scale(1.2); } }
+@keyframes marquee { to { transform: translateX(-50%); } }
+@keyframes float-y { 0%,100% { transform: translateY(0); } 50% { transform: translateY(-10px); } }
+@keyframes node-pulse { 0%,100% { opacity: .35; } 50% { opacity: 1; } }
+@keyframes spin-slow { to { transform: rotate(360deg); } }
+@keyframes shimmer { to { background-position: 200% center; } }
+
+.animate-float { animation: float-y 6s var(--ease-out-expo) infinite; }
+
+/* Premium glow card — animated gradient border on hover */
+.glow-card {
+  position: relative;
+  transition: transform 0.4s var(--ease-out-expo), border-color 0.4s, background 0.4s;
+}
+.glow-card::before {
+  content: "";
+  position: absolute;
+  inset: -1px;
+  border-radius: inherit;
+  padding: 1px;
+  background: linear-gradient(130deg, transparent 30%, var(--color-cyan), var(--color-royal), transparent 70%);
+  -webkit-mask: linear-gradient(#000 0 0) content-box, linear-gradient(#000 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.4s var(--ease-out-expo);
+  pointer-events: none;
+}
+.glow-card:hover {
+  transform: translateY(-5px);
+  background: rgba(255, 255, 255, 0.055);
+}
+.glow-card:hover::before { opacity: 1; }
+
+/* Pointer-reactive glow (JS sets --mx / --my) */
+.mouse-glow {
+  position: relative;
+  isolation: isolate;
+}
+.mouse-glow::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: -1;
+  border-radius: inherit;
+  background: radial-gradient(360px circle at var(--mx, 50%) var(--my, 0%), rgba(30, 107, 255, 0.16), transparent 60%);
+  opacity: 0;
+  transition: opacity 0.5s var(--ease-out-expo);
+  pointer-events: none;
+}
+.mouse-glow:hover::after { opacity: 1; }
+
+/* Gradient headline shimmer — all stops kept bright so text never dims */
+.grad-text-anim {
+  background: linear-gradient(100deg, #38e8ff 0%, #8fd0ff 38%, #c9b8ff 55%, #38e8ff 100%);
+  background-size: 200% auto;
+  -webkit-background-clip: text;
+  background-clip: text;
+  -webkit-text-fill-color: transparent;
+  color: transparent;
+  animation: shimmer 9s linear infinite;
+}
+@media (prefers-reduced-motion: reduce) {
+  .grad-text-anim { animation: none; }
+}
+
+/* Reduced motion */
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.001ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.001ms !important;
+  }
+}
