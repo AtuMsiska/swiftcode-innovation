@@ -13,6 +13,7 @@ export const site = {
     "SwiftCode Innovation is a South African technology company that researches real-world challenges before engineering innovative digital products and enterprise software solutions that shape the future.",
   founded: "2023",
   registered: "8 May 2023", // officially registered with CIPC
+  regNumber: "2023/734941/07", // CIPC company registration number
   infoOfficer: "Atusaye Msiska", // POPIA Information Officer (CEO)
   email: "admin@swiftcode.co.za",
   emailIt: "it@swiftcode.co.za",

@@ -13,12 +13,6 @@ export const metadata: Metadata = {
 export default function TermsPage() {
   return (
     <LegalPage eyebrow="Legal" title="Terms & Conditions" updated="July 2026">
-      <p className="rounded-xl border border-[var(--color-line)] bg-white/[0.03] p-4 text-[14px]">
-        <strong className="text-fg">Draft for review:</strong> These terms have been prepared for
-        {" "}{site.legalName} and should be reviewed and approved by a legal professional before they are
-        relied upon.
-      </p>
-
       <div>
         <h2>1. Introduction and acceptance</h2>
         <p>
@@ -202,9 +196,9 @@ export default function TermsPage() {
       <div>
         <h2>17. Contact</h2>
         <p>
-          {site.legalName}, {site.address.street}, {site.address.suburb}, {site.address.city},{" "}
-          {site.address.postalCode}, {site.address.country}. Email:{" "}
-          <a href={`mailto:${site.email}`}>{site.email}</a>.
+          {site.legalName} (Registration number {site.regNumber}), {site.address.street},{" "}
+          {site.address.suburb}, {site.address.city}, {site.address.postalCode}, {site.address.country}.
+          Email: <a href={`mailto:${site.email}`}>{site.email}</a>.
         </p>
       </div>
     </LegalPage>

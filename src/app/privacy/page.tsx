@@ -14,12 +14,6 @@ export default function PrivacyPage() {
   const addr = `${site.address.street}, ${site.address.suburb}, ${site.address.city}, ${site.address.postalCode}`;
   return (
     <LegalPage eyebrow="Legal" title="Privacy Policy" updated="July 2026">
-      <p className="rounded-xl border border-[var(--color-line)] bg-white/[0.03] p-4 text-[14px]">
-        <strong className="text-fg">Draft for review:</strong> This policy has been prepared for
-        {" "}{site.legalName} and should be reviewed and approved by a legal professional before it is
-        relied upon.
-      </p>
-
       <div>
         <h2>1. Introduction</h2>
         <p>
@@ -220,7 +214,7 @@ export default function PrivacyPage() {
         </p>
         <ul>
           <li>Information Officer: {site.infoOfficer}</li>
-          <li>{site.legalName}</li>
+          <li>{site.legalName} (Registration number {site.regNumber})</li>
           <li>{addr}, {site.address.country}</li>
           <li>Email: <a href={`mailto:${site.email}`}>{site.email}</a></li>
           <li>Phone: {site.phone}</li>

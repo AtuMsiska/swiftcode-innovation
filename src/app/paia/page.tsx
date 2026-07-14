@@ -12,12 +12,6 @@ export const metadata: Metadata = {
 export default function PaiaPage() {
   return (
     <LegalPage eyebrow="Legal" title="PAIA Manual" updated="July 2026">
-      <p className="rounded-xl border border-[var(--color-line)] bg-white/[0.03] p-4 text-[14px]">
-        <strong className="text-fg">Template notice:</strong> This PAIA manual is a starting point. A
-        complete manual in the format prescribed by the Information Regulator should be prepared with legal
-        guidance before publication.
-      </p>
-
       <div>
         <h2>1. Purpose of this manual</h2>
         <p>
@@ -30,6 +24,7 @@ export default function PaiaPage() {
         <h2>2. Particulars of the company</h2>
         <ul>
           <li>Company: {site.legalName}</li>
+          <li>Registration number: {site.regNumber}</li>
           <li>Registered address: {site.address.street}, {site.address.suburb}, {site.address.city}, {site.address.postalCode}</li>
           <li>Information Officer: {site.infoOfficer}</li>
           <li>Email: <a href={`mailto:${site.email}`}>{site.email}</a></li>

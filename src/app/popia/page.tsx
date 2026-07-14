@@ -13,11 +13,9 @@ export const metadata: Metadata = {
 export default function PopiaPage() {
   return (
     <LegalPage eyebrow="Legal" title="POPIA Compliance" updated="July 2026">
-      <p className="rounded-xl border border-[var(--color-line)] bg-white/[0.03] p-4 text-[14px]">
-        <strong className="text-fg">Draft for review:</strong> This statement summarises how{" "}
-        {site.legalName} approaches compliance with the Protection of Personal Information Act. It should
-        be reviewed and approved by a legal professional and read together with our{" "}
-        <a href="/privacy">Privacy Policy</a> and <a href="/paia">PAIA Manual</a>.
+      <p className="text-[15px]">
+        This statement should be read together with our <a href="/privacy">Privacy Policy</a> and{" "}
+        <a href="/paia">PAIA Manual</a>.
       </p>
 
       <div>
@@ -109,7 +107,7 @@ export default function PopiaPage() {
         </p>
         <ul>
           <li>Information Officer: {site.infoOfficer}</li>
-          <li>{site.legalName}</li>
+          <li>{site.legalName} (Registration number {site.regNumber})</li>
           <li>{site.address.street}, {site.address.suburb}, {site.address.city}, {site.address.postalCode}, {site.address.country}</li>
           <li>Email: <a href={`mailto:${site.email}`}>{site.email}</a></li>
           <li>Phone: {site.phone}</li>
