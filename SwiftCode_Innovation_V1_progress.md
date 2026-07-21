@@ -5,7 +5,8 @@
 
 > **V1.1 changelog:** interactive USSD simulator, qualitative pipeline badges (no more `0`),
 > mobile slide-over drawer + persistent sticky CTA, consultation modal (portalled), capability/industry
-> hover polish, founding year → 2023.
+> hover polish, founding year → 2023. Mute IT case study now live-linked (`muteit.co.za`); USSD demo
+> carrier label is generic "NetProvider" (network-agnostic marketing).
 
 ---
 
@@ -38,7 +39,7 @@ CTO **Emmanuel Mhlaba**.
 **Flagship product — AIDucate:** USSD-powered intelligent information/education platform for users
 without smartphones. Status: **product complete, launch phase**. ⚠️ Be honest: **0 live apps**, several
 in development. Never present AIDucate as a client.
-**Client work:** TectArch (`tectarch.co.za`, live), Mute IT (`muteit.co.za`, shows "Launching Soon").
+**Client work:** TectArch (`tectarch.co.za`, live), Mute IT (`muteit.co.za`, **live** — `urlStatus: "live"`).
 
 ---
 

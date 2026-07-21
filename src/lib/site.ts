@@ -207,7 +207,7 @@ export const projects: Project[] = [
     services: ["Web development", "Product showcase", "Responsive design", "Branding"],
     tech: ["Next.js", "React", "TypeScript", "TailwindCSS"],
     url: "https://muteit.co.za",
-    urlStatus: "soon",
+    urlStatus: "live",
     challenge:
       "A growing technology company needed a credible online presence to showcase its products and services.",
     solution:
