@@ -6,6 +6,7 @@ import { Aurora } from "@/components/aurora";
 import { Nav } from "@/components/nav";
 import { Footer } from "@/components/footer";
 import { Analytics } from "@/components/analytics";
+import { SpeedInsights } from "@vercel/speed-insights/next";
 
 // next/font self-hosts these at build time — no runtime request to Google
 // (POPIA-friendly, no third-party tracking).
@@ -102,6 +103,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <main id="main">{children}</main>
         <Footer />
         <Analytics />
+        <SpeedInsights />
       </body>
     </html>
   );
