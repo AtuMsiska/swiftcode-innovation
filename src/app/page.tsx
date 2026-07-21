@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { ArrowRight, ArrowUpRight } from "lucide-react";
+import { ArrowRight, ArrowUpRight, CheckCircle2, Radio, Globe2, FlaskConical } from "lucide-react";
 import { services, projects, techStack, industries, stats, faqs, site } from "@/lib/site";
 import { Reveal } from "@/components/reveal";
 import { Counter } from "@/components/counter";
@@ -11,6 +11,7 @@ import { LogoImg } from "@/components/logo-img";
 import { HeroCanvas } from "@/components/hero-canvas";
 import { InnovationFlow } from "@/components/innovation-flow";
 import { AiducateShowcase } from "@/components/aiducate-showcase";
+import { ConsultationCTA } from "@/components/consultation-cta";
 
 const flagship = projects.find((p) => p.flagship)!;
 const clients = projects.filter((p) => !p.flagship);
@@ -140,15 +141,18 @@ export default function Home() {
             </div>
             <div className="mt-10 grid gap-6 sm:grid-cols-2 lg:grid-cols-4">
               {[
-                { v: <Counter to={1} />, l: "Current products", note: "AIDucate — complete" },
-                { v: <Counter to={0} />, l: "Live products", note: "Launching soon" },
-                { v: "Several", l: "In development", note: "Actively building" },
-                { v: "Ongoing", l: "Research projects", note: "Always exploring" },
-              ].map((s, i) => (
-                <div key={i} className="glow-card glass rounded-2xl p-6">
-                  <div className="grad-text font-[family-name:var(--font-display)] text-[clamp(34px,5vw,52px)] font-bold leading-none">{s.v}</div>
-                  <p className="mt-3 text-[15px] font-semibold text-white">{s.l}</p>
-                  <p className="mt-1 text-[13px] text-muted">{s.note}</p>
+                { icon: CheckCircle2, label: "Stage", value: "Complete", note: "AIDucate fully developed" },
+                { icon: Radio, label: "Deployment", value: "Zero-Data USSD", note: "Works on any mobile phone" },
+                { icon: Globe2, label: "Target", value: "Pan-African", note: "Built for the continent" },
+                { icon: FlaskConical, label: "Pipeline", value: "Several in R&D", note: "Actively building" },
+              ].map((s) => (
+                <div key={s.label} className="glow-card glass group rounded-2xl p-6">
+                  <div className="flex h-11 w-11 items-center justify-center rounded-xl border border-[var(--color-line-strong)] bg-gradient-to-br from-royal/25 to-cyan/15 text-cyan transition-transform duration-300 group-hover:-translate-y-0.5">
+                    <s.icon className="h-5 w-5" strokeWidth={1.7} />
+                  </div>
+                  <p className="mt-4 text-[12px] font-semibold uppercase tracking-[0.14em] text-faint">{s.label}</p>
+                  <p className="mt-1 font-[family-name:var(--font-display)] text-[clamp(20px,2.4vw,26px)] font-bold text-white">{s.value}</p>
+                  <p className="mt-1.5 text-[13px] text-muted">{s.note}</p>
                 </div>
               ))}
             </div>
@@ -232,8 +236,8 @@ export default function Home() {
         <div className="mt-14 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {services.map((s, i) => (
             <Reveal key={s.slug} delay={(i % 3) * 0.08} as="article">
-              <div className="glow-card mouse-glow h-full rounded-2xl border border-[var(--color-line)] bg-white/[0.03] p-7">
-                <div className="mb-5 flex h-[52px] w-[52px] items-center justify-center rounded-[14px] border border-[var(--color-line-strong)] bg-gradient-to-br from-royal/30 to-cyan/15 text-cyan transition-transform duration-300 group-hover:scale-110">
+              <div className="group glow-card mouse-glow h-full rounded-2xl border border-white/10 bg-white/[0.03] p-7 transition-all duration-300 hover:border-white/30">
+                <div className="mb-5 flex h-[52px] w-[52px] items-center justify-center rounded-[14px] border border-[var(--color-line-strong)] bg-gradient-to-br from-royal/30 to-cyan/15 text-cyan transition-all duration-300 group-hover:-translate-y-0.5 group-hover:scale-110 group-hover:text-white">
                   <Icon name={s.icon} className="h-6 w-6" />
                 </div>
                 <h3 className="text-[21px]">{s.title}</h3>
@@ -263,8 +267,8 @@ export default function Home() {
         <div className="mx-auto mt-12 grid max-w-5xl grid-cols-2 gap-4 sm:grid-cols-3 lg:grid-cols-5">
           {industries.map((ind, i) => (
             <Reveal key={ind.name} delay={(i % 5) * 0.05}>
-              <div className="group glow-card glass flex flex-col items-center gap-3 rounded-2xl p-6 text-center">
-                <span className="flex h-12 w-12 items-center justify-center rounded-xl border border-[var(--color-line-strong)] bg-gradient-to-br from-royal/25 to-cyan/15 text-cyan transition-transform duration-300 group-hover:-translate-y-1 group-hover:scale-110">
+              <div className="group glow-card glass flex flex-col items-center gap-3 rounded-2xl p-6 text-center transition-all duration-300 hover:border-white/30">
+                <span className="flex h-12 w-12 items-center justify-center rounded-xl border border-[var(--color-line-strong)] bg-gradient-to-br from-royal/25 to-cyan/15 text-cyan transition-all duration-300 group-hover:-translate-y-1 group-hover:scale-110 group-hover:text-white">
                   <Icon name={ind.icon} className="h-6 w-6" />
                 </span>
                 <span className="text-[14.5px] font-medium text-white">{ind.name}</span>
@@ -322,26 +326,10 @@ export default function Home() {
         </div>
       </section>
 
-      {/* ================= FINAL CTA ================= */}
+      {/* ================= FINAL CTA / CONSULTATION ================= */}
       <section className="container-x pb-[clamp(20px,4vw,40px)]">
         <Reveal>
-          <MouseGlow>
-            <div className="relative overflow-hidden rounded-[24px] border border-[var(--color-line-strong)] bg-gradient-to-br from-royal/25 via-navy/60 to-cyan/[0.14] p-[clamp(40px,6vw,80px)] text-center">
-              <h2 className="mx-auto max-w-[20ch] text-[clamp(32px,5vw,56px)]">
-                This isn&apos;t another dev shop. It&apos;s a technology company building the future.
-              </h2>
-              <p className="mx-auto mt-5 max-w-[52ch] text-[18px] text-body">
-                Book a free 30-minute consultation with our founders. Honest, useful advice — whether or
-                not you work with us.
-              </p>
-              <div className="mt-9 flex flex-wrap justify-center gap-3.5">
-                <MagneticButton href="/contact">
-                  Request a consultation <ArrowRight className="h-4 w-4" />
-                </MagneticButton>
-                <Button href="/case-studies" variant="ghost">Explore our work</Button>
-              </div>
-            </div>
-          </MouseGlow>
+          <ConsultationCTA />
         </Reveal>
       </section>
     </>

@@ -101,6 +101,8 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
         <Nav />
         <main id="main">{children}</main>
         <Footer />
+        {/* clearance for the persistent mobile sticky CTA */}
+        <div aria-hidden className="h-[72px] sm:hidden" />
         <Analytics />
       </body>
     </html>

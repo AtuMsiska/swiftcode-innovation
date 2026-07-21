@@ -1,44 +1,7 @@
 import { Reveal } from "@/components/reveal";
 import { MagneticButton } from "@/components/magnetic";
+import { UssdSimulator } from "@/components/ussd-simulator";
 import { CheckCircle2, Rocket, ArrowUpRight, Smartphone, WifiOff, Globe2 } from "lucide-react";
-
-/* USSD phone mockup */
-function UssdPhone() {
-  return (
-    <div className="relative mx-auto w-[248px] animate-float">
-      <div className="absolute -inset-6 -z-10 rounded-[48px] bg-[radial-gradient(circle_at_center,rgba(24,224,255,0.25),transparent_70%)] blur-2xl" />
-      <div className="rounded-[40px] border border-[var(--color-line-strong)] bg-gradient-to-b from-navy-2 to-ink p-3 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.7)]">
-        <div className="relative h-[500px] overflow-hidden rounded-[30px] border border-[var(--color-line)] bg-ink">
-          {/* status bar */}
-          <div className="flex items-center justify-between px-5 pt-3 text-[11px] text-muted">
-            <span>09:41</span>
-            <span className="flex items-center gap-1"><span className="h-1.5 w-1.5 rounded-full bg-cyan" />Vodacom</span>
-          </div>
-          {/* USSD dialog */}
-          <div className="flex h-full items-center justify-center p-4">
-            <div className="w-full rounded-2xl border border-[var(--color-line-strong)] bg-navy-2/90 p-5 shadow-xl backdrop-blur">
-              <div className="text-[12px] font-medium text-faint">USSD · *120*2483#</div>
-              <div className="mt-3 font-[family-name:var(--font-display)] text-lg font-semibold text-white">AIDucate</div>
-              <p className="mt-1 text-[13px] text-muted">Reply with a number:</p>
-              <ul className="mt-3 space-y-2 text-[14px] text-body">
-                {["Search anything", "Education", "News & Information", "Health tips", "My account"].map((item, i) => (
-                  <li key={item} className="flex items-center gap-2.5">
-                    <span className="flex h-5 w-5 items-center justify-center rounded-md bg-gradient-to-br from-cyan to-royal text-[11px] font-bold text-ink">{i + 1}</span>
-                    {item}
-                  </li>
-                ))}
-              </ul>
-              <div className="mt-5 flex gap-2 border-t border-[var(--color-line)] pt-4 text-[13px]">
-                <span className="flex-1 rounded-lg border border-[var(--color-line)] py-2 text-center text-muted">Cancel</span>
-                <span className="flex-1 rounded-lg bg-gradient-to-br from-cyan to-royal py-2 text-center font-semibold text-ink">Send</span>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-  );
-}
 
 /* Stylised continental-reach map */
 function AfricaReach() {
@@ -134,7 +97,7 @@ export function AiducateShowcase() {
             </div>
 
             <div className="flex justify-center">
-              <UssdPhone />
+              <UssdSimulator />
             </div>
           </div>
         </div>

@@ -1,7 +1,11 @@
 # SwiftCode Innovation — V1 Engineering Baseline
 
-**Status:** ✅ LIVE at https://swiftcode.co.za · **Last updated:** 14 July 2026
+**Status:** ✅ LIVE at https://swiftcode.co.za · **Last updated:** 22 July 2026 (V1.1 audit refactor)
 **This file is the permanent context for all future development. Read it first.**
+
+> **V1.1 changelog:** interactive USSD simulator, qualitative pipeline badges (no more `0`),
+> mobile slide-over drawer + persistent sticky CTA, consultation modal (portalled), capability/industry
+> hover polish, founding year → 2023.
 
 ---
 
@@ -73,8 +77,9 @@ src/
     privacy/ popia/ paia/ terms/   legal pages (use <LegalPage>)
     sitemap.ts robots.ts opengraph-image.tsx apple-icon.tsx icon.svg not-found.tsx
   components/      nav · footer · footer-section · aurora · hero-canvas · innovation-flow ·
-                   aiducate-showcase · reveal · counter · magnetic · mouse-glow · logo ·
-                   logo-img · icon · ui · page-header · legal · contact-form · analytics
+                   aiducate-showcase · ussd-simulator (interactive) · consultation-cta (modal) ·
+                   reveal · counter · magnetic · mouse-glow · logo · logo-img · icon · ui ·
+                   page-header · legal · contact-form · analytics
   lib/site.ts      ⭐ SINGLE SOURCE OF TRUTH — company, nav, services, projects, stats, FAQs, industries
 ```
 
@@ -114,7 +119,11 @@ src/
    (`C:/Program Files/Google/Chrome/Application/chrome.exe`) against `npm start`, screenshot, then
    **uninstall puppeteer-core and delete the script**. Always verify visually; several bugs were
    invisible in code.
-8. **If ever reverting to static export** (`output: "export"` for cPanel): metadata routes need
+8. **`will-change: transform` ALSO traps `position: fixed`** (same family as #3). `Reveal` sets
+   `will-change: transform`, so any modal/overlay rendered *inside* a `Reveal` is trapped and mis-layered.
+   **Render modals via `createPortal(…, document.body)`** — see `consultation-cta.tsx`. (This bit the
+   consultation modal: the nav painted over it until portalled.)
+9. **If ever reverting to static export** (`output: "export"` for cPanel): metadata routes need
    `export const dynamic = "force-static"`, API routes are forbidden, and Apache needs `.htaccess` with
    `ForceType image/png` for the extensionless `opengraph-image`/`apple-icon`. (Currently NOT used —
    we're on Vercel with the full SSR app.)
@@ -126,11 +135,12 @@ src/
 ⚠️ **Do not change anything ≥768px.** Scope all mobile work to ≤768px using `md:` prefixes, or by
 lowering `clamp()` minimums (which only affect narrow widths).
 
-Current mobile treatment: fullscreen opaque menu (56px targets, staggered CSS transitions, visible X) ·
-hero = badge + headline + paragraph + 2 CTAs only · footer accordion (`FooterSection`) · tech stack as
-swipeable chips (not marquee) · stats 2-col/3 items · **form inputs 16px** (prevents iOS zoom) · fewer
-hero-canvas particles + lower aurora blur.
-**Verified: no horizontal overflow at 320/360/375/390/412/430/768.**
+Current mobile treatment: **right-anchored slide-over drawer** (52px+ targets, CSS-transition slide,
+close X in header) · **persistent sticky "Start a project" CTA fixed at viewport bottom** (`sm:hidden`,
+rendered from `Nav` fragment; layout has a `h-[72px] sm:hidden` spacer for clearance) · hero = badge +
+headline + paragraph + 2 CTAs · footer accordion (`FooterSection`) · tech stack swipeable chips · stats
+2-col/3 items · **form inputs 16px** (prevents iOS zoom) · fewer hero-canvas particles + lower aurora blur.
+**Verified: no horizontal overflow at 320/375/390/430/768.**
 
 ---
 
@@ -151,6 +161,8 @@ hero-canvas particles + lower aurora blur.
 1. **Case-study logos** — drop `aiducate.png`, `tectarch.png`, `mute-it.png` into `public/logos/`
    (`LogoImg` hides gracefully until they exist). See `public/logos/README.md`.
 2. **Analytics** — set `NEXT_PUBLIC_GA_ID` / `NEXT_PUBLIC_CLARITY_ID` (the `Analytics` component is env-gated; nothing loads without them).
+2b. **Consultation calendar** — set `site.scheduling` in `src/lib/site.ts` to a Cal.com / Calendly URL
+    and the consultation modal embeds a live booking iframe (currently `""` → shows email/WhatsApp fallback).
 3. **Optional 2nd mobile polish pass** — card padding, section rhythm, case-study "one at a time".
 4. **Optional** — legal counsel review of the legal pages (banners removed at user's instruction).
 5. **Insights/blog** — page is currently an empty state; needs real articles.

@@ -85,19 +85,25 @@ export function Nav() {
         </div>
       </header>
 
-      {/* Fullscreen mobile menu — sibling of <header> so `fixed` is viewport-relative
-          (a backdrop-filter on the header would otherwise trap it). CSS transitions
-          for guaranteed visibility. */}
+      {/* Mobile slide-over drawer — sibling of <header> so `fixed` is
+          viewport-relative (header's backdrop-filter would otherwise trap it).
+          CSS transitions for guaranteed visibility. */}
       <div
-        className={`fixed inset-0 z-50 transition-[opacity,visibility] duration-300 lg:hidden ${
+        className={`fixed inset-0 z-50 bg-ink/70 backdrop-blur-sm transition-[opacity,visibility] duration-300 lg:hidden ${
           open ? "visible opacity-100" : "invisible opacity-0"
+        }`}
+        onClick={() => setOpen(false)}
+        aria-hidden
+      />
+      <aside
+        className={`fixed right-0 top-0 z-50 flex h-full w-[86%] max-w-[380px] flex-col overflow-y-auto border-l border-[var(--color-line)] bg-ink transition-transform duration-300 ease-[cubic-bezier(.22,.61,.36,1)] lg:hidden ${
+          open ? "translate-x-0" : "translate-x-full"
         }`}
         role="dialog"
         aria-modal="true"
         aria-label="Menu"
       >
-        <div className="absolute inset-0 bg-ink/[0.98] backdrop-blur-2xl" onClick={() => setOpen(false)} />
-        <nav className="absolute inset-0 flex flex-col overflow-y-auto px-6 pb-[max(28px,env(safe-area-inset-bottom))] pt-[calc(64px+28px)]">
+        <div className="flex flex-1 flex-col px-6 pb-[max(24px,env(safe-area-inset-bottom))] pt-[calc(64px+20px)]">
           <ul className="flex flex-col">
             {mobileItems.map((item, i) => {
               const active = pathname === item.href;
@@ -106,9 +112,9 @@ export function Nav() {
                   <Link
                     href={item.href}
                     onClick={() => setOpen(false)}
-                    style={{ transitionDelay: open ? `${110 + i * 40}ms` : "0ms" }}
-                    className={`flex min-h-[56px] items-center border-b border-[var(--color-line)] font-[family-name:var(--font-display)] text-[26px] font-semibold tracking-tight transition-all duration-500 ease-[cubic-bezier(.22,.61,.36,1)] active:text-cyan ${
-                      open ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
+                    style={{ transitionDelay: open ? `${120 + i * 35}ms` : "0ms" }}
+                    className={`flex min-h-[52px] items-center border-b border-[var(--color-line)] font-[family-name:var(--font-display)] text-[22px] font-semibold tracking-tight transition-all duration-500 ease-[cubic-bezier(.22,.61,.36,1)] active:text-cyan ${
+                      open ? "translate-x-0 opacity-100" : "translate-x-4 opacity-0"
                     } ${active ? "text-cyan" : "text-white"}`}
                   >
                     {item.label}
@@ -117,17 +123,19 @@ export function Nav() {
               );
             })}
           </ul>
-          <div
-            className={`mt-auto pt-8 transition-all duration-500 ease-[cubic-bezier(.22,.61,.36,1)] ${
-              open ? "translate-y-0 opacity-100" : "translate-y-3 opacity-0"
-            }`}
-            style={{ transitionDelay: open ? `${110 + mobileItems.length * 40}ms` : "0ms" }}
-          >
+          <div className="mt-auto pt-8">
             <Button href="/contact" className="w-full text-[16px]">
               Start a project <ArrowRight className="h-4 w-4" />
             </Button>
           </div>
-        </nav>
+        </div>
+      </aside>
+
+      {/* Persistent sticky CTA on mobile (< sm; the header CTA covers ≥ sm) */}
+      <div className="fixed inset-x-0 bottom-0 z-40 border-t border-[var(--color-line)] bg-ink/85 px-4 pb-[max(10px,env(safe-area-inset-bottom))] pt-2.5 backdrop-blur-lg sm:hidden">
+        <Button href="/contact" className="w-full text-[16px]">
+          Start a project <ArrowRight className="h-4 w-4" />
+        </Button>
       </div>
     </>
   );

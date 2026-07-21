@@ -10,6 +10,7 @@ type Props = {
   children: ReactNode;
   variant?: "primary" | "ghost";
   className?: string;
+  onClick?: (e: React.MouseEvent) => void;
 };
 
 /**
@@ -17,7 +18,7 @@ type Props = {
  * with a strong hover lift. Falls back to a normal button under reduced motion
  * or on coarse-pointer (touch) devices.
  */
-export function MagneticButton({ href, children, variant = "primary", className }: Props) {
+export function MagneticButton({ href, children, variant = "primary", className, onClick }: Props) {
   const ref = useRef<HTMLAnchorElement>(null);
   const reduce = useReducedMotion();
   const external = href.startsWith("http") || href.startsWith("mailto") || href.startsWith("tel");
@@ -58,6 +59,7 @@ export function MagneticButton({ href, children, variant = "primary", className 
     className: cls,
     onMouseMove: onMove,
     onMouseLeave: reset,
+    onClick,
   } as const;
 
   if (external) {

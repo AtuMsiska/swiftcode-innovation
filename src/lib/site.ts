@@ -31,6 +31,9 @@ export const site = {
     github: "https://github.com/swiftcode-innovation",
     whatsapp: "https://wa.me/27748328272",
   },
+  // Cal.com or Calendly booking URL for the consultation modal.
+  // e.g. "https://cal.com/swiftcode/30min" — leave "" to show the fallback panel.
+  scheduling: "",
 } as const;
 
 export const nav = [
