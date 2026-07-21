@@ -1,9 +1,12 @@
 import Script from "next/script";
+import { Analytics as VercelAnalytics } from "@vercel/analytics/next";
 
 /**
  * Privacy-aware analytics, only injected when the corresponding env var is set.
  * Set NEXT_PUBLIC_GA_ID (e.g. "G-XXXXXXX") and/or NEXT_PUBLIC_CLARITY_ID.
  * Nothing loads if they're absent — keeps dev clean and POPIA-conscious.
+ * 
+ * Vercel Web Analytics is always enabled and privacy-friendly by default.
  */
 export function Analytics() {
   const gaId = process.env.NEXT_PUBLIC_GA_ID;
@@ -28,6 +31,8 @@ gtag('config', '${gaId}', { anonymize_ip: true });`}
           {`(function(c,l,a,r,i,t,y){c[a]=c[a]||function(){(c[a].q=c[a].q||[]).push(arguments)};t=l.createElement(r);t.async=1;t.src="https://www.clarity.ms/tag/"+i;y=l.getElementsByTagName(r)[0];y.parentNode.insertBefore(t,y);})(window,document,"clarity","script","${clarityId}");`}
         </Script>
       )}
+
+      <VercelAnalytics />
     </>
   );
 }
