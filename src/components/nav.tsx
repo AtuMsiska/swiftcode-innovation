@@ -22,7 +22,14 @@ export function Nav() {
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  useEffect(() => setOpen(false), [pathname]);
+  // Close the drawer on route change (incl. back/forward). Adjusting state
+  // during render is React's recommended pattern — no extra effect pass.
+  const [prevPath, setPrevPath] = useState(pathname);
+  if (prevPath !== pathname) {
+    setPrevPath(pathname);
+    setOpen(false);
+  }
+
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";
     return () => {

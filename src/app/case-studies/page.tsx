@@ -4,7 +4,7 @@ import { ArrowUpRight } from "lucide-react";
 import { projects } from "@/lib/site";
 import { PageHeader } from "@/components/page-header";
 import { Reveal } from "@/components/reveal";
-import { LogoImg } from "@/components/logo-img";
+import { ProjectLogo } from "@/components/logo-img";
 
 export const metadata: Metadata = {
   title: "Case Studies",
@@ -47,13 +47,7 @@ export default function CaseStudiesPage() {
                 <span className="absolute right-6 top-6 z-[2] flex h-11 w-11 items-center justify-center rounded-full border border-[var(--color-line-strong)] bg-white/[0.04] text-fg transition-all duration-300 group-hover:bg-gradient-to-br group-hover:from-cyan group-hover:to-royal group-hover:text-ink">
                   <ArrowUpRight className="h-5 w-5" />
                 </span>
-                <LogoImg
-                  src={p.logo}
-                  alt={`${p.name} logo`}
-                  plate
-                  plateClassName="absolute left-6 top-6 z-[2] px-3 py-2"
-                  className="h-7 w-auto"
-                />
+                <ProjectLogo project={p} size="card" />
                 <div className="relative z-[2]">
                   <span className="text-[12px] font-semibold uppercase tracking-[0.1em] text-cyan">{p.type}</span>
                   <h2 className="mt-2.5 text-[26px]">{p.name}</h2>

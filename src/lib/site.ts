@@ -7,7 +7,9 @@ export const site = {
   name: "SwiftCode Innovation",
   legalName: "SwiftCode Innovation (Pty) Ltd",
   domain: "swiftcode.co.za",
-  url: "https://swiftcode.co.za",
+  // Canonical origin = the PRIMARY domain in Vercel. The bare domain 308-redirects
+  // to www, so canonical/sitemap/OG/JSON-LD URLs must use www (no redirect hop).
+  url: "https://www.swiftcode.co.za",
   tagline: "Where Technology Meets Innovation.",
   description:
     "SwiftCode Innovation is a South African technology company that researches real-world challenges before engineering innovative digital products and enterprise software solutions that shape the future.",
@@ -156,6 +158,7 @@ export type Project = {
   solution?: string;
   outcome?: string;
   logo?: string; // path under /public, e.g. /logos/aiducate.png
+  logoTile?: boolean; // square logo with its own background → rounded tile, not a white plate
   flagship?: boolean;
 };
 
@@ -176,6 +179,7 @@ export const projects: Project[] = [
     outcome:
       "A fully developed, genuinely inclusive platform now preparing for launch, with a clear path to reach communities across the continent.",
     logo: "/logos/aiducate.png",
+    logoTile: true,
     flagship: true,
   },
   {

@@ -26,8 +26,9 @@ export function Reveal({ children, delay = 0, y = 22, className, as }: RevealPro
     if (!el) return;
     const reduce = window.matchMedia("(prefers-reduced-motion: reduce)").matches;
     if (reduce || !("IntersectionObserver" in window)) {
-      setShown(true);
-      return;
+      // Show on the next frame (not synchronously in the effect body).
+      const id = requestAnimationFrame(() => setShown(true));
+      return () => cancelAnimationFrame(id);
     }
     const io = new IntersectionObserver(
       (entries) => {

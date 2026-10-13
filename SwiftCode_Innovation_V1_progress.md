@@ -1,8 +1,19 @@
 # SwiftCode Innovation — V1 Engineering Baseline
 
-**Status:** ✅ LIVE at https://swiftcode.co.za · **Last updated:** 22 July 2026 (V1.1 audit refactor)
+**Status:** ✅ LIVE at https://www.swiftcode.co.za · **Last updated:** 13 October 2026 (V1.2 cleanup)
 **This file is the permanent context for all future development. Read it first.**
 
+> **⚠️ OPEN ISSUE (user action, GoDaddy):** the bare domain `swiftcode.co.za` has two stray GoDaddy
+> forwarding/parking `A` records beside Vercel's — see §7.10. Until removed, most visitors to the bare
+> domain fail and Vercel cannot issue its SSL cert. `www` is unaffected.
+
+> **V1.2 changelog (cleanup):** ESLint now 0 problems (fixed 4 React-19 `set-state-in-effect` errors +
+> 1 unused import — see §7.11) · canonical/sitemap/robots/OG/JSON-LD moved to the `www` primary (§7.12) ·
+> USSD phone: no float animation (moving tap targets), 264×620 frame so keypad/Restart never clip, 44px
+> menu rows, 8px keypad gaps, hint moved to a caption · real case-study logos live via shared
+> `ProjectLogo` (AIDucate = rounded tile, others = white plate) · removed 5 unused create-next-app SVGs ·
+> README rewritten (was stale: wrong tagline, `info@`, old Vercel IP).
+>
 > **V1.1 changelog:** interactive USSD simulator, qualitative pipeline badges (no more `0`),
 > mobile slide-over drawer + persistent sticky CTA, consultation modal (portalled), capability/industry
 > hover polish, founding year → 2023. Mute IT case study now live-linked (`muteit.co.za`); USSD demo
@@ -79,7 +90,7 @@ src/
     sitemap.ts robots.ts opengraph-image.tsx apple-icon.tsx icon.svg not-found.tsx
   components/      nav · footer · footer-section · aurora · hero-canvas · innovation-flow ·
                    aiducate-showcase · ussd-simulator (interactive) · consultation-cta (modal) ·
-                   reveal · counter · magnetic · mouse-glow · logo · logo-img · icon · ui ·
+                   reveal · counter · magnetic · mouse-glow · logo · logo-img (LogoImg + ProjectLogo) · icon · ui ·
                    page-header · legal · contact-form · analytics
   lib/site.ts      ⭐ SINGLE SOURCE OF TRUTH — company, nav, services, projects, stats, FAQs, industries
 ```
@@ -117,9 +128,11 @@ src/
    (`d5bd7209-40e5-4a01-98e6-166f915a89a4`, override via `NEXT_PUBLIC_WEB3FORMS_KEY`). **No Vercel env
    var needed.** Submissions → `admin@swiftcode.co.za`.
 7. **Verification workflow:** the browser MCP times out — instead use `puppeteer-core` + system Chrome
-   (`C:/Program Files/Google/Chrome/Application/chrome.exe`) against `npm start`, screenshot, then
-   **uninstall puppeteer-core and delete the script**. Always verify visually; several bugs were
-   invisible in code.
+   (`C:/Program Files/Google/Chrome/Application/chrome.exe`). **Install puppeteer-core in the session
+   scratchpad (its own `npm init`), not the project** — `package.json` stays untouched and nothing needs
+   cleaning up. Serve the build with `npx next start -p 3100` (own port). ⚠️ **Never
+   `taskkill //IM node.exe`** — other sessions run dev servers in this folder; kill only your own port's
+   PID. Always verify visually; several bugs were invisible in code.
 8. **`will-change: transform` ALSO traps `position: fixed`** (same family as #3). `Reveal` sets
    `will-change: transform`, so any modal/overlay rendered *inside* a `Reveal` is trapped and mis-layered.
    **Render modals via `createPortal(…, document.body)`** — see `consultation-cta.tsx`. (This bit the
@@ -128,6 +141,24 @@ src/
    `export const dynamic = "force-static"`, API routes are forbidden, and Apache needs `.htaccess` with
    `ForceType image/png` for the extensionless `opengraph-image`/`apple-icon`. (Currently NOT used —
    we're on Vercel with the full SSR app.)
+10. **DNS: GoDaddy forwarding/parking adds stray `A` records.** Diagnosed 13 Oct 2026: `@` resolved to
+    `216.198.79.1` (Vercel ✅) **and** `3.33.251.168` + `15.197.225.128` (GoDaddy ❌). DNS round-robin sent
+    most bare-domain visitors to GoDaddy (TLS fail), and Let's Encrypt validation failed so Vercel had no
+    cert for the bare domain (`curl` exit 60 via Vercel's IP). **Correct records:** `A @ 216.198.79.1`
+    *only* + `CNAME www → <project>.vercel-dns-0xx.com`; Domain Forwarding OFF; never touch MX/TXT.
+    Check with: `curl -s "https://dns.google/resolve?name=swiftcode.co.za&type=A"`.
+11. **React 19 lint (`react-hooks/set-state-in-effect`)** — never call `setState` synchronously in an
+    effect body. House patterns: reset-on-prop-change → *adjust state during render* with a `prev` value
+    (`nav.tsx`); one-off show → `requestAnimationFrame(() => setX(...))` (`reveal.tsx`); reduced-motion →
+    *derive* the value instead of setting it (`counter.tsx`); "is client?" → `useSyncExternalStore`
+    (`consultation-cta.tsx`). Keep `npm run lint` at **0 problems** (it does not block `next build`, so
+    check it explicitly).
+12. **Canonical origin = `www`.** Vercel's primary domain is `www.swiftcode.co.za` (bare 308-redirects),
+    so `site.url` is `https://www.swiftcode.co.za` — canonical, sitemap, robots, OG and JSON-LD must not
+    point at a redirect. `site.domain` stays `swiftcode.co.za` for *display*.
+13. **Interactive elements must not animate position.** The USSD phone lost its `animate-float` once it
+    became tappable (moving tap targets). Its frame is sized (264×620) so the dialog never clips the
+    keypad; the dialog area is `min-h-0 flex-1 overflow-y-auto` as a safety net.
 
 ---
 
@@ -141,7 +172,7 @@ close X in header) · **persistent sticky "Start a project" CTA fixed at viewpor
 rendered from `Nav` fragment; layout has a `h-[72px] sm:hidden` spacer for clearance) · hero = badge +
 headline + paragraph + 2 CTAs · footer accordion (`FooterSection`) · tech stack swipeable chips · stats
 2-col/3 items · **form inputs 16px** (prevents iOS zoom) · fewer hero-canvas particles + lower aurora blur.
-**Verified: no horizontal overflow at 320/375/390/430/768.**
+**Verified (V1.2): no horizontal overflow at 320/360/375/390/412/430/768/1024/1440.**
 
 ---
 
@@ -159,8 +190,10 @@ headline + paragraph + 2 CTAs · footer accordion (`FooterSection`) · tech stac
 
 ## 10. Next steps (open)
 
-1. **Case-study logos** — drop `aiducate.png`, `tectarch.png`, `mute-it.png` into `public/logos/`
-   (`LogoImg` hides gracefully until they exist). See `public/logos/README.md`.
+0. **🔴 Fix GoDaddy DNS (user action)** — delete the stray `A @ 3.33.251.168` and `A @ 15.197.225.128`
+   records, turn Domain Forwarding off, keep only `A @ 216.198.79.1`. Then confirm Vercel → Domains shows
+   both domains **Valid** and `curl -sI https://swiftcode.co.za` returns `308 → www`. See §7.10.
+1. ~~Case-study logos~~ — ✅ done (V1.2): all three live via `ProjectLogo`; see `public/logos/README.md`.
 2. **Analytics** — set `NEXT_PUBLIC_GA_ID` / `NEXT_PUBLIC_CLARITY_ID` (the `Analytics` component is env-gated; nothing loads without them).
 2b. **Consultation calendar** — set `site.scheduling` in `src/lib/site.ts` to a Cal.com / Calendly URL
     and the consultation modal embeds a live booking iframe (currently `""` → shows email/WhatsApp fallback).
@@ -172,5 +205,7 @@ headline + paragraph + 2 CTAs · footer accordion (`FooterSection`) · tech stac
 
 ## 11. Working style that worked
 
-Verify visually before declaring done · content lives in `site.ts` · build (`npm run build`) before every
-commit · push to deploy · be honest about traction (0 live apps) · keep desktop untouched when doing mobile.
+Verify visually before declaring done · content lives in `site.ts` · `npm run build` **and**
+`npm run lint` (0 problems) before every commit · push to deploy, then confirm the live site serves the
+new build · be honest about traction (0 live apps) · keep desktop untouched when doing mobile ·
+check DNS with the DoH one-liner in §7.10 when anything domain-related looks off.

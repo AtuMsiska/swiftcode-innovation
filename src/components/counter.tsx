@@ -19,11 +19,7 @@ export function Counter({ to, decimals = 0, suffix = "", prefix = "", duration =
   const [value, setValue] = useState(0);
 
   useEffect(() => {
-    if (!inView) return;
-    if (reduce) {
-      setValue(to);
-      return;
-    }
+    if (!inView || reduce) return; // reduced motion: final value is derived below
     let raf = 0;
     let start: number | null = null;
     const step = (ts: number) => {
@@ -38,10 +34,12 @@ export function Counter({ to, decimals = 0, suffix = "", prefix = "", duration =
     return () => cancelAnimationFrame(raf);
   }, [inView, to, duration, reduce]);
 
+  const display = reduce ? to : value;
+
   return (
     <span ref={ref} className="tabular-nums">
       {prefix}
-      {value.toFixed(decimals)}
+      {display.toFixed(decimals)}
       {suffix}
     </span>
   );

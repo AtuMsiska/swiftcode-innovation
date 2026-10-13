@@ -91,14 +91,15 @@ export function UssdSimulator() {
   }
 
   return (
-    <div className="relative mx-auto w-[248px]">
-      {/* Task-2 glow: blue → emerald radial behind the device */}
+    <div className="relative mx-auto w-[264px]">
+      {/* Glow: blue → emerald radial behind the device */}
       <div
         aria-hidden
         className="absolute -inset-8 -z-10 rounded-[56px] bg-gradient-to-r from-blue-600/25 to-emerald-500/20 blur-2xl"
       />
-      <div className="animate-float rounded-[40px] border border-[var(--color-line-strong)] bg-gradient-to-b from-navy-2 to-ink p-3 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.7)]">
-        <div className="relative flex h-[500px] flex-col overflow-hidden rounded-[30px] border border-[var(--color-line)] bg-ink">
+      {/* Static (no float) — it's interactive, so tap targets must not move */}
+      <div className="rounded-[40px] border border-[var(--color-line-strong)] bg-gradient-to-b from-navy-2 to-ink p-3 shadow-[0_40px_80px_-20px_rgba(0,0,0,0.7)]">
+        <div className="relative flex h-[620px] flex-col overflow-hidden rounded-[30px] border border-[var(--color-line)] bg-ink">
           {/* status bar */}
           <div className="flex items-center justify-between px-5 pt-3 text-[11px] text-muted">
             <span>09:41</span>
@@ -108,10 +109,14 @@ export function UssdSimulator() {
             </span>
           </div>
 
-          {/* USSD dialog */}
-          <div className="flex flex-1 flex-col p-4">
-            <div key={screenKey} className="flex-1 animate-[ussd-in_.28s_ease]">
-              <div className="rounded-2xl border border-[var(--color-line-strong)] bg-navy-2/90 p-4 shadow-xl backdrop-blur">
+          {/* USSD dialog — scrolls inside the screen if a reply is long, so the
+              keypad below is never clipped */}
+          <div className="flex min-h-0 flex-1 flex-col p-4">
+            <div
+              key={screenKey}
+              className="min-h-0 flex-1 animate-[ussd-in_.28s_ease] overflow-y-auto [scrollbar-width:none] [&::-webkit-scrollbar]:hidden"
+            >
+              <div className="rounded-2xl border border-[var(--color-line-strong)] bg-navy-2/90 p-3.5 shadow-xl backdrop-blur">
                 <div className="flex items-center justify-between text-[11px] font-medium text-faint">
                   <span>USSD · *120*2483#</span>
                   <span className="text-cyan">{screen.title}</span>
@@ -120,12 +125,12 @@ export function UssdSimulator() {
                 {screen.prompt && <p className="mt-3 text-[13px] text-muted">{screen.prompt}</p>}
                 {screen.text && <p className="mt-3 text-[14px] leading-relaxed text-body">{screen.text}</p>}
 
-                <ul className="mt-3 space-y-1.5">
+                <ul className="mt-3 space-y-1">
                   {screen.options.map((o) => (
                     <li key={o.n}>
                       <button
                         onClick={() => press(o.n)}
-                        className="flex min-h-[40px] w-full items-center gap-2.5 rounded-lg px-1.5 text-left text-[14px] text-body transition-colors hover:bg-white/[0.06] active:bg-white/[0.1]"
+                        className="flex min-h-[44px] w-full cursor-pointer items-center gap-2.5 rounded-lg px-1.5 text-left text-[14px] text-body transition-colors hover:bg-white/[0.06] active:bg-white/[0.1]"
                       >
                         <span className="flex h-6 w-6 shrink-0 items-center justify-center rounded-md bg-gradient-to-br from-cyan to-royal text-[12px] font-bold text-ink">
                           {o.n}
@@ -136,13 +141,10 @@ export function UssdSimulator() {
                   ))}
                 </ul>
               </div>
-              <p className="mt-3 px-1 text-center text-[11px] text-faint">
-                Tap a number to reply — try 1 or 2
-              </p>
             </div>
 
-            {/* keypad */}
-            <div className="mt-auto grid grid-cols-3 gap-1.5">
+            {/* keypad — fixed height, never clipped */}
+            <div className="mt-3 grid shrink-0 grid-cols-3 gap-2">
               {KEYS.map((k) => {
                 const active = screen.options.some((o) => o.n === k);
                 return (
@@ -150,7 +152,7 @@ export function UssdSimulator() {
                     key={k}
                     onClick={() => press(k)}
                     aria-label={`Key ${k}`}
-                    className={`flex h-9 items-center justify-center rounded-lg border text-[15px] font-medium transition-colors ${
+                    className={`flex h-9 cursor-pointer items-center justify-center rounded-lg border text-[15px] font-medium transition-colors ${
                       active
                         ? "border-cyan/40 bg-cyan/10 text-white hover:bg-cyan/20"
                         : "border-[var(--color-line)] text-faint"
@@ -161,17 +163,17 @@ export function UssdSimulator() {
                 );
               })}
             </div>
-            <div className="mt-1.5 flex gap-1.5">
+            <div className="mt-2 flex shrink-0 gap-2">
               <button
                 onClick={() => setScreenKey("home")}
-                className="flex flex-1 items-center justify-center gap-1.5 rounded-lg border border-[var(--color-line)] py-2 text-[12px] text-muted transition-colors hover:text-white"
+                className="flex h-9 flex-1 cursor-pointer items-center justify-center gap-1.5 rounded-lg border border-[var(--color-line)] text-[12px] text-muted transition-colors hover:text-white"
               >
                 <RotateCcw className="h-3.5 w-3.5" /> Restart
               </button>
               <button
                 onClick={() => setScreenKey("home")}
                 aria-label="Cancel session"
-                className="flex items-center justify-center rounded-lg border border-[var(--color-line)] px-3 py-2 text-muted transition-colors hover:text-white"
+                className="flex h-9 cursor-pointer items-center justify-center rounded-lg border border-[var(--color-line)] px-3 text-muted transition-colors hover:text-white"
               >
                 <Delete className="h-3.5 w-3.5" />
               </button>
@@ -179,6 +181,9 @@ export function UssdSimulator() {
           </div>
         </div>
       </div>
+      <p className="mt-5 text-center text-[13px] text-muted">
+        Live demo — tap a number to reply
+      </p>
     </div>
   );
 }

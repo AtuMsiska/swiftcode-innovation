@@ -1,6 +1,8 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, useSyncExternalStore } from "react";
+
+const noopSubscribe = () => () => {};
 import { createPortal } from "react-dom";
 import { ArrowRight, X, Mail, MessageCircle, CalendarClock } from "lucide-react";
 import { site } from "@/lib/site";
@@ -15,9 +17,8 @@ import { MouseGlow } from "@/components/mouse-glow";
  */
 export function ConsultationCTA() {
   const [open, setOpen] = useState(false);
-  const [mounted, setMounted] = useState(false);
-
-  useEffect(() => setMounted(true), []);
+  // true only on the client (portal needs document.body); false during SSR/hydration
+  const mounted = useSyncExternalStore(noopSubscribe, () => true, () => false);
 
   useEffect(() => {
     document.body.style.overflow = open ? "hidden" : "";

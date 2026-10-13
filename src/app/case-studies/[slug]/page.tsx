@@ -6,7 +6,7 @@ import { projects, site } from "@/lib/site";
 import { Reveal } from "@/components/reveal";
 import { Eyebrow } from "@/components/ui";
 import { MagneticButton } from "@/components/magnetic";
-import { LogoImg } from "@/components/logo-img";
+import { ProjectLogo } from "@/components/logo-img";
 
 export function generateStaticParams() {
   return projects.map((p) => ({ slug: p.slug }));
@@ -109,13 +109,7 @@ export default async function CaseStudyPage({
           >
             <div className="grid-bg absolute inset-0 opacity-60" />
             <div className="absolute inset-0 flex items-center justify-center p-8">
-              <LogoImg
-                src={project.logo}
-                alt={`${project.name} logo`}
-                plate
-                plateClassName="px-8 py-6 sm:px-12 sm:py-8"
-                className="max-h-[clamp(56px,12vw,120px)] w-auto"
-              />
+              <ProjectLogo project={project} size="hero" />
             </div>
             <div className="absolute bottom-6 left-6 flex items-center gap-2 text-[13px] text-muted">
               <span className="h-2 w-2 rounded-full bg-cyan" /> {project.name} — {project.industry}

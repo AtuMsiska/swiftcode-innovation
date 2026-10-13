@@ -36,3 +36,43 @@ export function LogoImg({
     </div>
   );
 }
+
+/**
+ * A project's logo in the right treatment: wide wordmarks sit on a white
+ * plate; square logos with their own background (`logoTile`) render as a
+ * rounded tile. `card` = corner badge on case-study cards, `hero` = the large
+ * lock-up in a case-study page's visual band.
+ */
+export function ProjectLogo({
+  project,
+  size,
+}: {
+  project: { name: string; logo?: string; logoTile?: boolean };
+  size: "card" | "hero";
+}) {
+  const alt = `${project.name} logo`;
+  if (project.logoTile) {
+    return (
+      <LogoImg
+        src={project.logo}
+        alt={alt}
+        className={
+          size === "card"
+            ? "absolute left-6 top-6 z-[2] h-[52px] w-[52px] rounded-xl ring-1 ring-white/35 shadow-[0_8px_24px_-6px_rgba(0,0,0,0.7)]"
+            : "h-[clamp(96px,14vw,150px)] w-auto rounded-2xl border border-white/15 shadow-[0_20px_50px_-20px_rgba(0,0,0,0.6)]"
+        }
+      />
+    );
+  }
+  return size === "card" ? (
+    <LogoImg src={project.logo} alt={alt} plate plateClassName="absolute left-6 top-6 z-[2] px-3 py-2" className="h-7 w-auto" />
+  ) : (
+    <LogoImg
+      src={project.logo}
+      alt={alt}
+      plate
+      plateClassName="px-8 py-6 sm:px-12 sm:py-8"
+      className="max-h-[clamp(56px,12vw,120px)] w-auto"
+    />
+  );
+}
