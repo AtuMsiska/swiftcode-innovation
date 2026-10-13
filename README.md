@@ -64,10 +64,11 @@ In **GoDaddy → DNS**, the records must be exactly:
 | `A` | `@` | `216.198.79.1` *(the **only** `A` record for `@`)* |
 | `CNAME` | `www` | the project-specific `…vercel-dns-0xx.com` value shown in Vercel → Domains |
 
-> ⚠️ GoDaddy's **Domain Forwarding** / parked-page feature silently adds extra `A`
-> records (e.g. `3.33.251.168`, `15.197.225.128`). Delete them and turn forwarding
-> off — otherwise most visitors to the bare domain hit GoDaddy instead of the site,
-> and Vercel can't issue its SSL certificate. Leave **MX/TXT** records alone (email).
+> ⚠️ **Never enable GoDaddy Domain Forwarding** — Vercel already redirects the bare
+> domain to `www`. Forwarding silently adds extra `A` records (`3.33.251.168`,
+> `15.197.225.128`) that send most bare-domain visitors to GoDaddy and block Vercel's
+> SSL certificate (this happened once; fixed 13 Oct 2026 by deleting the forwarding
+> rule). Leave **MX/TXT/email CNAME** records alone (GoDaddy-hosted email).
 
 ## Contact & company
 

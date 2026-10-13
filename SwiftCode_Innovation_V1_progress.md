@@ -3,9 +3,9 @@
 **Status:** ✅ LIVE at https://www.swiftcode.co.za · **Last updated:** 13 October 2026 (V1.2 cleanup)
 **This file is the permanent context for all future development. Read it first.**
 
-> **⚠️ OPEN ISSUE (user action, GoDaddy):** the bare domain `swiftcode.co.za` has two stray GoDaddy
-> forwarding/parking `A` records beside Vercel's — see §7.10. Until removed, most visitors to the bare
-> domain fail and Vercel cannot issue its SSL cert. `www` is unaffected.
+> **✅ DNS fixed 13 Oct 2026:** GoDaddy Domain Forwarding (`swiftcode.co.za → WWW…`, 301) was removed,
+> which deleted its two stray `A` records. Bare domain now resolves only to Vercel, has a valid cert, and
+> 308-redirects to `www` (12/12 requests OK; Vercel shows all 3 domains *Valid Configuration*). See §7.10.
 
 > **V1.2 changelog (cleanup):** ESLint now 0 problems (fixed 4 React-19 `set-state-in-effect` errors +
 > 1 unused import — see §7.11) · canonical/sitemap/robots/OG/JSON-LD moved to the `www` primary (§7.12) ·
@@ -147,6 +147,10 @@ src/
     cert for the bare domain (`curl` exit 60 via Vercel's IP). **Correct records:** `A @ 216.198.79.1`
     *only* + `CNAME www → <project>.vercel-dns-0xx.com`; Domain Forwarding OFF; never touch MX/TXT.
     Check with: `curl -s "https://dns.google/resolve?name=swiftcode.co.za&type=A"`.
+    **Resolved** by deleting the forwarding rule (GoDaddy → Domain Portfolio → swiftcode.co.za → DNS →
+    *Forwarding*), which auto-removed both stray records. **Never re-add GoDaddy forwarding** — Vercel
+    already does the bare→`www` redirect. Vercel project: `vercel.com/swift-code-innovation/swiftcode-innovation`.
+    Email is GoDaddy-hosted (MX `smtp`/`mailstore1.secureserver.net`, `email` CNAME, 2 DKIM CNAMEs).
 11. **React 19 lint (`react-hooks/set-state-in-effect`)** — never call `setState` synchronously in an
     effect body. House patterns: reset-on-prop-change → *adjust state during render* with a `prev` value
     (`nav.tsx`); one-off show → `requestAnimationFrame(() => setX(...))` (`reveal.tsx`); reduced-motion →
@@ -190,9 +194,7 @@ headline + paragraph + 2 CTAs · footer accordion (`FooterSection`) · tech stac
 
 ## 10. Next steps (open)
 
-0. **🔴 Fix GoDaddy DNS (user action)** — delete the stray `A @ 3.33.251.168` and `A @ 15.197.225.128`
-   records, turn Domain Forwarding off, keep only `A @ 216.198.79.1`. Then confirm Vercel → Domains shows
-   both domains **Valid** and `curl -sI https://swiftcode.co.za` returns `308 → www`. See §7.10.
+0. ~~Fix GoDaddy DNS~~ — ✅ done 13 Oct 2026 (forwarding removed; see §7.10).
 1. ~~Case-study logos~~ — ✅ done (V1.2): all three live via `ProjectLogo`; see `public/logos/README.md`.
 2. **Analytics** — set `NEXT_PUBLIC_GA_ID` / `NEXT_PUBLIC_CLARITY_ID` (the `Analytics` component is env-gated; nothing loads without them).
 2b. **Consultation calendar** — set `site.scheduling` in `src/lib/site.ts` to a Cal.com / Calendly URL
