@@ -1,6 +1,6 @@
 # SwiftCode Innovation — V1 Engineering Baseline
 
-**Status:** ✅ LIVE at https://www.swiftcode.co.za · **Last updated:** 13 October 2026 (V1.2 cleanup)
+**Status:** ✅ LIVE at https://www.swiftcode.co.za · **Last updated:** 14 October 2026 (repo moved to D:, see §4)
 **This file is the permanent context for all future development. Read it first.**
 
 > **✅ DNS fixed 13 Oct 2026:** GoDaddy Domain Forwarding (`swiftcode.co.za → WWW…`, 301) was removed,
@@ -68,7 +68,10 @@ in development. Never present AIDucate as a client.
 
 ## 4. Repo & deploy pipeline
 
-- **Local:** `C:\Users\atums\Documents\Claude\swiftcode-innovation`
+- **Local:** `D:\TectArch\TectArch Business - 04 Mute IT\08 Websites\swiftcode-innovation`
+  (moved from `C:\Users\atums\Documents\Claude\swiftcode-innovation` on 14 Oct 2026 to free C: space —
+  the old C: copy is deleted. GitHub/Vercel are path-independent, so nothing changed there.)
+  After a fresh clone/copy: `npm ci` (node_modules and `.next` are never copied/committed).
 - **GitHub:** `https://github.com/AtuMsiska/swiftcode-innovation` (branch `main`) — credentials cached, `git push` works
 - **Deploy:** `npm run build` to verify → commit → **push to `main` → Vercel auto-builds & replaces live**
 - Git identity (local): Atusaye Msiska `<admin@swiftcode.co.za>`
