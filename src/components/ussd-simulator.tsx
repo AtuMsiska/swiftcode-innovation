@@ -182,7 +182,8 @@ export function UssdSimulator() {
         </div>
       </div>
       <p className="mt-5 text-center text-[13px] text-muted">
-        Live demo — tap a number to reply
+        Interactive demo — tap a number to reply
+        <span className="mt-1 block text-[12px] text-faint">Simulated sample content, not real grant or health advice.</span>
       </p>
     </div>
   );

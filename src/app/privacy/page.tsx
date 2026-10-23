@@ -13,7 +13,7 @@ export const metadata: Metadata = {
 export default function PrivacyPage() {
   const addr = `${site.address.street}, ${site.address.suburb}, ${site.address.city}, ${site.address.postalCode}`;
   return (
-    <LegalPage eyebrow="Legal" title="Privacy Policy" updated="July 2026">
+    <LegalPage eyebrow="Legal" title="Privacy Policy" updated="October 2026">
       <div>
         <h2>1. Introduction</h2>
         <p>
@@ -109,6 +109,13 @@ export default function PrivacyPage() {
           personal information only as instructed and to apply security measures at least as protective as
           our own.
         </p>
+        <p>
+          For this website specifically: the site is hosted by <strong>Vercel Inc.</strong>, which keeps
+          standard technical request logs (such as IP address, browser type and the page requested) to
+          deliver and secure the site. Messages sent through our contact form are delivered by our form
+          provider, <strong>Web3Forms</strong>, to our business email account, where we keep them to reply
+          to you. The website itself does not store contact-form submissions.
+        </p>
       </div>
 
       <div>
@@ -128,7 +135,9 @@ export default function PrivacyPage() {
           Where we transfer personal information to another country, we do so only where a lawful basis
           under POPIA exists — for example, where the recipient is subject to laws or agreements that
           provide an adequate level of protection, or where you have consented. Information processed in
-          another jurisdiction may be subject to the laws of that country.
+          another jurisdiction may be subject to the laws of that country. Our website host (Vercel,
+          United States) and our contact-form provider (Web3Forms) may process information outside South
+          Africa.
         </p>
       </div>
 
@@ -138,7 +147,8 @@ export default function PrivacyPage() {
           We may contact you about services that may be of interest to you where permitted by law. You
           may opt out of marketing communications at any time by contacting us at{" "}
           <a href={`mailto:${site.email}`}>{site.email}</a>, and we will stop processing your information
-          for that purpose.
+          for that purpose. We do not add people who contact us through our website to marketing lists
+          unless they separately agree to it.
         </p>
       </div>
 
@@ -175,9 +185,10 @@ export default function PrivacyPage() {
       <div>
         <h2>14. Cookies and similar technologies</h2>
         <p>
-          Our website may use cookies and similar technologies to enable core functionality and, where
-          enabled, to collect anonymised usage statistics. You can set your browser to refuse cookies;
-          however, some parts of the website may not function as intended if you do so.
+          Our website does not set cookies to identify or track you. If we enable website analytics in
+          future, analytics cookies will only be used after you agree to them through a consent prompt,
+          and you can change your choice at any time. If you book a meeting through an embedded scheduling
+          tool, that provider may set its own cookies. You can also set your browser to refuse cookies.
         </p>
       </div>
 

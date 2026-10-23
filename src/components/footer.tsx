@@ -3,6 +3,8 @@ import { Mail, MapPin, Phone } from "lucide-react";
 import { site, footerNav } from "@/lib/site";
 import { Logo } from "@/components/logo";
 import { FooterSection } from "@/components/footer-section";
+import { analyticsEnabled } from "@/components/analytics";
+import { CookieSettingsButton } from "@/components/analytics-consent";
 
 /* Brand marks (lucide no longer ships brand icons) */
 function LinkedInIcon({ className }: { className?: string }) {
@@ -84,7 +86,12 @@ export function Footer() {
 
         <div className="mt-14 flex flex-col items-start justify-between gap-4 border-t border-[var(--color-line)] pt-7 text-[14px] text-faint sm:flex-row sm:items-center">
           <span>© {new Date().getFullYear()} {site.legalName}. Made in South Africa.</span>
-          <span>Where Technology Meets Innovation.</span>
+          <span className="flex items-center gap-4">
+            {analyticsEnabled && (
+              <CookieSettingsButton className="cursor-pointer underline-offset-2 transition-colors hover:text-white hover:underline" />
+            )}
+            Where Technology Meets Innovation.
+          </span>
         </div>
       </div>
     </footer>

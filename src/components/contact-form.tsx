@@ -1,11 +1,16 @@
 "use client";
 
 import { useState } from "react";
+import Link from "next/link";
 import { Send, Check } from "lucide-react";
 
 type Status = "idle" | "submitting" | "success" | "error";
 
 const emailRe = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+
+// Trimmed, length-capped form value — mirrors the inputs' maxLength so we
+// never forward more than we ask for (data minimisation, POPIA s10).
+const field = (fd: FormData, key: string, max: number) => String(fd.get(key) ?? "").trim().slice(0, max);
 
 // Web3Forms access key. These keys are public by design (they live in the
 // client bundle), so it's safe to ship as the default. Override anytime with
@@ -26,14 +31,16 @@ export function ContactForm() {
     if (!email || !emailRe.test(email)) next.email = true;
     if (!String(data.get("message") || "").trim()) next.message = true;
     setErrors(next);
-    return Object.keys(next).length === 0;
+    return Object.keys(next);
   }
 
   async function onSubmit(e: React.FormEvent<HTMLFormElement>) {
     e.preventDefault();
     const form = e.currentTarget;
-    if (!validate(form)) {
-      form.querySelector<HTMLElement>("[aria-invalid='true']")?.focus();
+    const invalid = validate(form);
+    if (invalid.length) {
+      // aria-invalid isn't rendered yet (state update pending), so focus by field id
+      form.querySelector<HTMLElement>(`#${invalid[0]}`)?.focus();
       return;
     }
     if (!WEB3FORMS_KEY) {
@@ -47,13 +54,13 @@ export function ContactForm() {
     const fd = new FormData(form);
     const payload = {
       access_key: WEB3FORMS_KEY,
-      subject: `New enquiry — ${fd.get("name")}`,
+      subject: `New enquiry — ${field(fd, "name", 100)}`,
       from_name: "SwiftCode Innovation website",
-      name: fd.get("name"),
-      email: fd.get("email"),
-      company: fd.get("company") || "—",
-      interest: fd.get("interest") || "—",
-      message: fd.get("message"),
+      name: field(fd, "name", 100),
+      email: field(fd, "email", 254),
+      company: field(fd, "company", 120) || "—",
+      interest: field(fd, "interest", 60) || "—",
+      message: field(fd, "message", 5000),
       botcheck: fd.get("botcheck") || "",
     };
 
@@ -95,13 +102,13 @@ export function ContactForm() {
 
       <div className="grid gap-5 sm:grid-cols-2">
         <Field id="name" label="Name" required error={errors.name} errorMsg="Please enter your name.">
-          <input id="name" name="name" type="text" autoComplete="name" placeholder="Atusaye Msiska" aria-invalid={errors.name || undefined} className={inputCls} />
+          <input id="name" name="name" type="text" autoComplete="name" maxLength={100} placeholder="Atusaye Msiska" aria-invalid={errors.name || undefined} className={inputCls} />
         </Field>
         <Field id="email" label="Email" required error={errors.email} errorMsg="Please enter a valid email address.">
-          <input id="email" name="email" type="email" inputMode="email" autoComplete="email" placeholder="you@company.co.za" aria-invalid={errors.email || undefined} className={inputCls} />
+          <input id="email" name="email" type="email" inputMode="email" autoComplete="email" maxLength={254} placeholder="you@company.co.za" aria-invalid={errors.email || undefined} className={inputCls} />
         </Field>
         <Field id="company" label="Company">
-          <input id="company" name="company" type="text" autoComplete="organization" placeholder="Your organisation" className={inputCls} />
+          <input id="company" name="company" type="text" autoComplete="organization" maxLength={120} placeholder="Your organisation" className={inputCls} />
         </Field>
         <Field id="interest" label="I'm interested in">
           <select id="interest" name="interest" className={inputCls} defaultValue="">
@@ -118,7 +125,7 @@ export function ContactForm() {
         </Field>
       </div>
       <Field id="message" label="Project details" required error={errors.message} errorMsg="Please tell us a little about your project." className="mt-5">
-        <textarea id="message" name="message" rows={5} placeholder="Tell us what you're building, who it's for, and where you are today…" aria-invalid={errors.message || undefined} className={`${inputCls} resize-y`} />
+        <textarea id="message" name="message" rows={5} maxLength={5000} placeholder="Tell us what you're building, who it's for, and where you are today…" aria-invalid={errors.message || undefined} className={`${inputCls} resize-y`} />
       </Field>
 
       {serverError && <p role="alert" className="mt-4 text-sm text-red-400">{serverError}</p>}
@@ -132,7 +139,9 @@ export function ContactForm() {
         <Send className="h-4 w-4" />
       </button>
       <p className="mt-3 text-center text-[13px] text-faint">
-        By submitting you agree to our Privacy Policy. We&apos;ll never share your details.
+        We use your details only to reply to your enquiry. Your message is delivered by our form
+        provider (Web3Forms) to our business email. See our{" "}
+        <Link href="/privacy" className="underline underline-offset-2 hover:text-cyan">Privacy Policy</Link>.
       </p>
     </form>
   );

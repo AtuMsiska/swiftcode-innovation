@@ -1,12 +1,21 @@
 # SwiftCode Innovation — V1 Engineering Baseline
 
-**Status:** ✅ LIVE at https://www.swiftcode.co.za · **Last updated:** 14 October 2026 (repo moved to D:, see §4)
+**Status:** ✅ LIVE at https://www.swiftcode.co.za · **Last updated:** 23 October 2026 (V1.3 security remediation)
 **This file is the permanent context for all future development. Read it first.**
 
 > **✅ DNS fixed 13 Oct 2026:** GoDaddy Domain Forwarding (`swiftcode.co.za → WWW…`, 301) was removed,
 > which deleted its two stray `A` records. Bare domain now resolves only to Vercel, has a valid cert, and
 > 308-redirects to `www` (12/12 requests OK; Vercel shows all 3 domains *Valid Configuration*). See §7.10.
 
+> **V1.3 changelog (security, 23 Oct 2026):** full audit → `SECURITY_COMPLIANCE.md` + `SYSTEM_ARCHITECTURE.md`
+> (read both before adding any feature that stores data, sets cookies, adds a route, calls AI or loads a
+> third-party script) · Next.js 16.2.10 → **16.4.2** (prod `npm audit` = 0) · **Content-Security-Policy** +
+> COOP + `X-Frame-Options: DENY` in `next.config.ts` (§7.14) · analytics now **opt-in consent** gated
+> (`analytics-consent.tsx`, footer "Cookie settings") · contact form: accurate POPIA notice + Privacy link,
+> `maxLength` + capped payload, focus moves to first invalid field · Privacy Policy names Vercel/Web3Forms,
+> cross-border, no-marketing-without-consent, cookies (Oct 2026) · USSD caption "Simulated sample content"
+> · `.gitignore` hardened.
+>
 > **V1.2 changelog (cleanup):** ESLint now 0 problems (fixed 4 React-19 `set-state-in-effect` errors +
 > 1 unused import — see §7.11) · canonical/sitemap/robots/OG/JSON-LD moved to the `www` primary (§7.12) ·
 > USSD phone: no float animation (moving tap targets), 264×620 frame so keypad/Restart never clip, 44px
@@ -56,7 +65,7 @@ in development. Never present AIDucate as a client.
 
 ## 3. Stack
 
-- **Next.js 16.2.10** (App Router, Turbopack) · **React 19.2.4** · **TypeScript**
+- **Next.js 16.4.2** (App Router, Turbopack) · **React 19.2.4** · **TypeScript**
 - **Tailwind CSS v4** — CSS-first `@theme` in `globals.css`; **no `tailwind.config.js`**
 - **motion** (framer-motion successor) — used sparingly, see §7.2
 - **lucide-react** icons, **clsx**
@@ -166,6 +175,11 @@ src/
 13. **Interactive elements must not animate position.** The USSD phone lost its `animate-float` once it
     became tappable (moving tap targets). Its frame is sized (264×620) so the dialog never clips the
     keypad; the dialog area is `min-h-0 flex-1 overflow-y-auto` as a safety net.
+14. **The CSP blocks every host it doesn't list.** Any new third-party script, API, iframe or image host
+    must be added in `next.config.ts` or it silently fails (check the console for "Content Security
+    Policy"). Analytics/Cal.com hosts are added automatically only when their env var / `site.scheduling`
+    is set. Inline scripts stay allowed (static pages, no nonces). Analytics must stay behind
+    `AnalyticsConsent` — never load trackers directly. See `SECURITY_COMPLIANCE.md` §7.
 
 ---
 
@@ -189,7 +203,7 @@ headline + paragraph + 2 CTAs · footer accordion (`FooterSection`) · tech stac
 - Generated **OG image** + **apple-icon** via `next/og` `ImageResponse`; favicon = `src/app/icon.svg`
   (SVG recreation of the plug emblem). Official wordmark: `public/swiftcode-logo.png`
   (teal, brightened via CSS `filter: brightness(1.28)` so it reads on dark).
-- Security headers + `poweredByHeader: false` in `next.config.ts`.
+- Security headers (CSP, HSTS, COOP, etc.) + `poweredByHeader: false` in `next.config.ts`.
 - Legal set: Privacy · POPIA · PAIA · Terms — all finalised with the CIPC number, **no draft banners**.
   Written original (modelled on reference structure only). Information Officer = CEO.
 
@@ -199,12 +213,14 @@ headline + paragraph + 2 CTAs · footer accordion (`FooterSection`) · tech stac
 
 0. ~~Fix GoDaddy DNS~~ — ✅ done 13 Oct 2026 (forwarding removed; see §7.10).
 1. ~~Case-study logos~~ — ✅ done (V1.2): all three live via `ProjectLogo`; see `public/logos/README.md`.
-2. **Analytics** — set `NEXT_PUBLIC_GA_ID` / `NEXT_PUBLIC_CLARITY_ID` (the `Analytics` component is env-gated; nothing loads without them).
+2. **Analytics** — set `NEXT_PUBLIC_GA_ID` / `NEXT_PUBLIC_CLARITY_ID` in Vercel and redeploy. A consent prompt then appears; nothing loads until a visitor accepts, and the CSP widens automatically.
 2b. **Consultation calendar** — set `site.scheduling` in `src/lib/site.ts` to a Cal.com / Calendly URL
     and the consultation modal embeds a live booking iframe (currently `""` → shows email/WhatsApp fallback).
 3. **Optional 2nd mobile polish pass** — card padding, section rhythm, case-study "one at a time".
 4. **Optional** — legal counsel review of the legal pages (banners removed at user's instruction).
 5. **Insights/blog** — page is currently an empty state; needs real articles.
+6. **Owner security actions** (`SECURITY_COMPLIANCE.md` §6): 2FA on GitHub/Vercel/GoDaddy/Web3Forms/mailbox,
+   GitHub secret scanning + Dependabot, **Vercel Pro** (Hobby = non-commercial only), mailbox retention rule.
 
 ---
 
