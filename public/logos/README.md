@@ -14,4 +14,4 @@ Logos shown on the case-study cards (corner badge) and on each case-study page
 - Square logos that carry their own background → set `logoTile: true` so they render
   as a rounded tile instead of being shrunk onto a white plate.
 - A missing file degrades gracefully (nothing renders — no broken-image icon).
-- ~600px on the long edge is plenty; they're displayed small.
+- Keep files at roughly 3× their display size (current: tile 450px, wordmarks 360px tall). They're displayed small, and huge originals cost phones memory.

@@ -66,7 +66,7 @@ Method: STRIDE, applied to the trust boundaries in `SYSTEM_ARCHITECTURE.md` §4.
 | Liability disclaimers where guidance is given | ✅ Pass | Terms + Privacy; USSD demo labelled as simulated |
 | Data minimisation | ✅ Pass | 3 required fields, capped lengths; nothing logged by the site |
 | Opt-in for analytics, third-party AI and tracking | ✅ Pass | Double gate: env var **and** visitor opt-in (decline-default, equal-weight buttons, "Cookie settings" to withdraw; withdrawal clears analytics cookies) |
-| HTTPS / transport security | ✅ Pass | HSTS 2 years + includeSubDomains + preload; apex 308 → www; `upgrade-insecure-requests` |
+| HTTPS / transport security | ✅ Pass | HSTS 2 years + includeSubDomains (deliberately **not** preloaded, see F7); apex 308 → www; `upgrade-insecure-requests` |
 | Security headers | ✅ Pass | CSP, nosniff, X-Frame-Options DENY, Referrer-Policy, Permissions-Policy, COOP; `X-Powered-By` removed |
 | Outbound links safe | ✅ Pass | All `target="_blank"` links carry `rel="noopener noreferrer"` |
 | Third-party requests minimised | ✅ Pass | Fonts self-hosted; only Web3Forms on submit |
@@ -113,7 +113,7 @@ GDPR standard if EU marketing starts.
 | F4 | Medium (legal) | Form privacy wording inaccurate; operators/transfers not named | ✅ **Fixed**: new form notice + linked policy; Privacy Policy §7, §9, §10, §14 updated (dated October 2026) |
 | F5 | Low | Public form key + no length limits → spam | ✅ Partly fixed: `maxLength` + capped payload. Captcha deferred (would add a third-party script and cookies); revisit if spam increases |
 | F6 | Low | USSD demo captioned "Live demo" with SASSA/health content | ✅ **Fixed**: "Interactive demo" + "Simulated sample content, not real grant or health advice." |
-| F7 | Info | HSTS `preload` is hard to undo | Open (advice): before submitting to hstspreload.org, confirm every subdomain works on HTTPS |
+| F7 | Info | HSTS `preload` is hard to undo | ✅ **Decided: do not preload.** Subdomain check (23 Oct): `email.swiftcode.co.za` (GoDaddy webmail shortcut) has no valid HTTPS certificate and would break. `preload` token removed from the header |
 | F8 | Low | Cal.com iframe (when enabled) adds third-party cookies | ✅ Handled: `frame-src` allows only the configured scheduling origin; disclosed in Privacy §14 |
 | F9 | Info | JSON-LD via `dangerouslySetInnerHTML` of static data | Accepted (safe while data is static) |
 | F10 | Low | `.gitignore` gaps | ✅ **Fixed** |
@@ -128,12 +128,12 @@ GDPR standard if EU marketing starts.
 |---|---|---|---|
 | C1 | 2FA (authenticator app, not SMS) on **GitHub, Vercel, GoDaddy, Web3Forms** and the `admin@` mailbox; GoDaddy domain lock on | Atu | **Verify** |
 | C2 | Only Atu (and the CTO) have write access to the repo and Vercel project | Atu | Verify |
-| C3 | GitHub → Settings → Code security: secret scanning + push protection, Dependabot alerts | Atu | To do |
-| C4 | Monthly: `npm audit --omit=dev`, review Vercel deployments, check DNS unchanged | Dev | Recurring |
+| C3 | GitHub → Settings → Code security: secret scanning + push protection, Dependabot alerts | Atu | Dependabot **version updates** live via `.github/dependabot.yml` (weekly PRs). Alert/secret-scanning toggles: owner to confirm in GitHub settings |
+| C4 | Weekly Dependabot PRs (review, build, merge); monthly: review Vercel deployments, check DNS unchanged | Dev | Recurring |
 | C5 | Web3Forms account email stays `admin@swiftcode.co.za`; rotate the key if the inbox is spammed | Atu | Ongoing |
-| C6 | Mailbox retention rule for enquiries (POPIA s14) | Atu | To do |
-| C7 | Operator terms/DPAs for Web3Forms, Vercel, GoDaddy saved in company records | Atu | To do |
-| C8 | Vercel Pro plan (commercial use) | Atu | **Decision needed** |
+| C6 | Mailbox retention rule for enquiries (POPIA s14): policy set at 24 months in the Operator Register; apply in the `admin@` mailbox | Atu | Policy ✅ · mailbox rule to apply |
+| C7 | Operator terms/DPAs saved in company records (`D:\TectArch\TectArch Business - 05 SwiftCode Innovation\05 Company Documentation\POPIA & Operator Agreements`) | Atu | ✅ Register + Vercel DPA/Terms/Privacy archived · Web3Forms and GoDaddy pages block automated download: save manually (links in register) |
+| C8 | Vercel Pro plan (commercial use): Vercel Terms (19 Oct 2026) limit Hobby to "personal or non-commercial use" and allow removal of Hobby deployments without notice | Atu | **Purchase needs owner confirmation** |
 | C9 | Any feature that stores data, sets cookies, adds a server route, calls AI or loads a third-party script → update both docs and re-audit **before** shipping | Dev | Rule |
 
 ---
@@ -165,6 +165,7 @@ manifest-src 'self'; worker-src 'self' blob:; upgrade-insecure-requests
 | Date | Version | Change |
 |---|---|---|
 | 23 Oct 2026 | V1.3 | F1, F2, F3, F4, F5 (partial), F6, F8, F10, F12 fixed. Verified locally with a production build: all routes 200, 0 CSP violations, form validation + focus, consent accept/decline/reopen/withdraw (with a test GA ID), mobile 375px no overflow; then deployed and re-checked live headers |
+| 23 Oct 2026 | V1.3.1 | F7 decided (no preload; header updated) · Dependabot weekly updates · operator register + archived Vercel agreements · logos resized to ~3× display size (decoded image memory 92 MB → 4.5 MB) |
 
 ---
 

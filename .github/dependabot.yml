@@ -1,0 +1,16 @@
+# Dependabot: weekly pull requests for outdated / vulnerable npm dependencies.
+# Review each PR, run `npm run build` + `npm run lint`, then merge (merging deploys).
+# See SECURITY_COMPLIANCE.md §6 (C3/C4).
+version: 2
+updates:
+  - package-ecosystem: "npm"
+    directory: "/"
+    schedule:
+      interval: "weekly"
+      day: "monday"
+      timezone: "Africa/Johannesburg"
+    open-pull-requests-limit: 5
+    groups:
+      # One PR for routine minor/patch bumps instead of many small ones
+      minor-and-patch:
+        update-types: ["minor", "patch"]

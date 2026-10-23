@@ -7,6 +7,11 @@
 > which deleted its two stray `A` records. Bare domain now resolves only to Vercel, has a valid cert, and
 > 308-redirects to `www` (12/12 requests OK; Vercel shows all 3 domains *Valid Configuration*). See §7.10.
 
+> **V1.3.1 (23 Oct 2026):** HSTS `preload` removed (email.swiftcode.co.za webmail has no HTTPS cert; never
+> preload) · `.github/dependabot.yml` weekly npm PRs · logos resized to ~3× display size (originals in git
+> history; keep new logos ≤ ~1300px long edge) · POPIA operator register in
+> `05 SwiftCode Innovation\05 Company Documentation\POPIA & Operator Agreements\`.
+>
 > **V1.3 changelog (security, 23 Oct 2026):** full audit → `SECURITY_COMPLIANCE.md` + `SYSTEM_ARCHITECTURE.md`
 > (read both before adding any feature that stores data, sets cookies, adds a route, calls AI or loads a
 > third-party script) · Next.js 16.2.10 → **16.4.2** (prod `npm audit` = 0) · **Content-Security-Policy** +
